@@ -17,14 +17,24 @@
 </head>
 
 <body>
-  <h1>Have fun Guys! 🥔</h1>
-  <div id="map"></div>
+  <nav>
+    <div>LOGIN</div>
+    <div>LOGOUT</div>
+    <div>MYMAPS</div>
+    <div>PROFILE</div>
+  </nav>
 
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
-      async
-    ></script>
+
+    <section class="container">
+
+      <div id="map"></div>
+      <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
+        async
+      ></script>
+  </section>
+
 </body>
 
 </html>

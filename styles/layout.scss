@@ -3,4 +3,19 @@
 body,
 html {
   margin: 0;
+  flex-direction: column;
+  nav {
+    display: flex;
+    width: 80%;
+    height: 100%;
+    text-align: center;
+    text-justify: center;
+    justify-content: space-between;
+    margin: 3%;
+  }
+}
+
+.container{
+  width: 80%;
+  height: 100%;
 }
