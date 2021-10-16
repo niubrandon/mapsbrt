@@ -20,7 +20,7 @@ module.exports = function(router, database) {
 
   //if authenticated user - user created maps
   //can change route name
-  router.get("/:id", (req, res) => {
+  router.get("/me", (req, res) => {
     //dummy
     userId = 1;
     database.getAllUserMaps(userId)
