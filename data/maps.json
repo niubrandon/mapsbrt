@@ -1,0 +1,44 @@
+{"1":
+  {
+    "id" : 1,
+    "title": "Awesome Map Name",
+    "description": "map description",
+    "lat" : 35.686278,
+    "lng" : 139.737871,
+    "creator_id": 1
+  },
+  "2": {
+      "id" : 2,
+      "title": "Second Map",
+      "description": "map description",
+      "lat" : 35.686278,
+      "lng" : 139.737871,
+      "creator_id": 1
+  },
+  "3": {
+    "id" : 3,
+    "title": "Third Map",
+    "description": "map description",
+    "lat" : 35.686278,
+    "lng" : 139.737871,
+    "creator_id": 1
+  },
+  "4": {
+    "id" : 4,
+    "title": "Fourth Map",
+    "description": "map description",
+    "lat" : 35.686278,
+    "lng" : 139.737871,
+    "creator_id": 1
+  },
+  "5": {
+    "id" : 4,
+    "title": "Fifth Map",
+    "description": "map description",
+    "lat" : 35.686278,
+    "lng" : 139.737871,
+    "creator_id": 1
+  }
+
+}
+
