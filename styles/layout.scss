@@ -13,15 +13,23 @@ html {
     justify-content: space-between;
     margin: 3%;
   }
+
+}
+
+main {
+  width: 90%;
+  section {
+    margin: 3;
+    width: 100%;
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 3%;
+    }
+  }
   .container {
     width: 80%;
     height: 100%;
   }
-  section .row{
-    margin: 3;
-    div {
-      margin: 1%;
-    }
-  }
 }
-
