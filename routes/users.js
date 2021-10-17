@@ -75,9 +75,6 @@ module.exports = function(router, database) {
   });
 
 
-
-
-
   /*
   user login route
 
@@ -96,6 +93,12 @@ module.exports = function(router, database) {
       res.send({user: {name: data.name, email: data.email, password: data.password}});
     })
       .catch(e => res.send(e));
+  });
+
+
+  router.post('/logout', (req, res) => {
+    req.session = null;
+    res.status(201).send("user successfully logout");
   });
 
   //obselete code. doesn't return the json object to client
