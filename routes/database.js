@@ -47,3 +47,17 @@ const getUsers = function(limit = 2) {
 }
 exports.getUsers = getUsers;
 
+
+/*
+add user
+*/
+const addUser = function(user) {
+  const {username, password, email} = user;
+  const queryString =  `INSERT INTO users(name, email, password)
+  VALUES($1, $3, $2)
+  RETURNING *;
+ `;
+  return db.query(queryString, [username, password, email]);
+};
+
+exports.addUser = addUser;
