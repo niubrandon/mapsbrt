@@ -8,12 +8,6 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
-// PG database client/connection setup
-const { Pool } = require("pg");
-const dbParams = require("./lib/db.js");
-const db = new Pool(dbParams);
-db.connect();
-
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -41,13 +35,10 @@ const database = require('./routes/database');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
-/**const userRouter = express.Router();
-  usersRoutes(userRouter, database);
-  app.use('/api/users', userRouter);
- *
- */
-app.use("/api/users", usersRoutes(db));
 
+const userRouter = express.Router();
+usersRoutes(userRouter, database);
+app.use('/api/users', userRouter);
 
 const mapRouter = express.Router();
 mapsRoutes(mapRouter, database);

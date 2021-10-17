@@ -37,3 +37,13 @@ const getAllUserMaps = function(userId, limit = 3) {
 }
 exports.getAllUserMaps = getAllUserMaps;
 
+/**
+ *
+ * @param {*} limit
+ * @returns
+ */
+const getUsers = function(limit = 2) {
+  return Promise.resolve(users);
+}
+exports.getUsers = getUsers;
+

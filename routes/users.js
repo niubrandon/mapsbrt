@@ -5,15 +5,11 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
-const express = require('express');
-const router  = express.Router();
-
-module.exports = (db) => {
+module.exports = function(router, database) {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
+    database.getUsers()
+      .then(users => {
+        res.send({ users });
       })
       .catch(err => {
         res
