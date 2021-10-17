@@ -23,8 +23,9 @@ module.exports = function(router, database) {
 
 
   //brandon addUser feature
-  router.post('/', (req, res) => {
+  router.post('/register', (req, res) => {
     const user = req.body;
+    console.log("recevied post ajax request from registration",user);
     user.password = bcrypt.hashSync(req.body.password, salt);
     database.addUser(user)
       .then(user => {
@@ -37,5 +38,10 @@ module.exports = function(router, database) {
       })
       .catch(e => res.send(e));
   });
+
+  //brandonAddUser feature
+
+
+
   return router;
 };

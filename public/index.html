@@ -22,6 +22,7 @@
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js"></script>
   <script type="text/javascript" src="/scripts/components/map.js"></script>
+  <script type="text/javascript" src="/scripts/components/registerform.js"></script>
   <!-- Component Stuff -->
 
 </head>
@@ -49,12 +50,11 @@
             </li>
           </ul>
         </div>
-        <form method="post" action="/users/register">
-          <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-          <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-          <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
-          <button class="btn btn-primary" type="submit">Register</button>
-        </form>
+
+
+          <button id="register" class="btn btn-primary" type="submit">Register</button>
+          <button id="login" class="btn btn-primary" type="submit">Login</button>
+
       </div>
     </nav>
   <main>
