@@ -5,6 +5,7 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+
 module.exports = function(router, database) {
   router.get("/", (req, res) => {
     database.getAllMaps()
