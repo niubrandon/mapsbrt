@@ -11,11 +11,12 @@ const db = require('../db/index');
  * to get all the maps
  */
 const getAllMaps = function(limit = 10) {
-  const availableMaps = {};
-  for (let i = 1; i <= limit; i++) {
-    availableMaps[i] = maps[i];
-  }
-  return Promise.resolve(availableMaps);
+  const queryString =  `
+  SELECT *
+  FROM maps
+  LIMIT $1
+ `;
+ return db.query(queryString, [limit], false);
 }
 exports.getAllMaps = getAllMaps;
 
