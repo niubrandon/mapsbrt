@@ -7,6 +7,9 @@ const sassMiddleware = require("./lib/sass-middleware");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cookieSession = require('cookie-session');
+const bcrypt = require("bcryptjs");
+const salt = bcrypt.genSaltSync(10);
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -53,6 +56,8 @@ app.use("/api/maps", mapRouter);
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

@@ -7,6 +7,8 @@
 const cookieSession = require('cookie-session');
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
+
+
 module.exports = function(router, database) {
   router.get("/", (req, res) => {
     database.getUsers()
@@ -39,7 +41,6 @@ module.exports = function(router, database) {
       .catch(e => res.send(e));
   });
 
-  //brandonAddUser feature
 
 
 

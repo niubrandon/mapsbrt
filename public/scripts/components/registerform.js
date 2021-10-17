@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  const $registerForm = `<form id="register-form" method="post" action="/users/register">
+  const $registerForm = `<form id="register-form" method="post" action="/api/users/register">
   <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
   <input name="email" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
   <input name="password" type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
@@ -25,7 +25,7 @@ $(document).ready(function() {
       console.log("serialized data from user registration form", serializeData);
       //validate form submitted content
 
-      $.post("/users/register", serializeData, (success) => {
+      $.post("/api/users/register", serializeData, (success) => {
         console.log("response from server", success);
         //user registered and logged in then fetch data
       });
