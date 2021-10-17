@@ -49,7 +49,7 @@ exports.getUsers = getUsers;
 
 
 /*
-add user
+brandon add user
 */
 const addUser = function(user) {
   const {username, password, email} = user;
@@ -57,7 +57,19 @@ const addUser = function(user) {
   VALUES($1, $3, $2)
   RETURNING *;
  `;
-  return db.query(queryString, [username, password, email]);
+  return db.query(queryString, [username, password, email], true);
 };
 
 exports.addUser = addUser;
+
+/*
+check user with id and eamil
+--Temp limit one, fix later if have duplicate username
+*/
+const findUserFromUsername = function(user) {
+ //const {username, password} = user;
+  const queryString = `SELECT * FROM users WHERE name = $1 LIMIT 1`;
+  return db.query(queryString, [user.username], true);
+};
+
+exports.findUserFromUsername = findUserFromUsername;

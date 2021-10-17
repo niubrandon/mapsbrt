@@ -10,6 +10,7 @@ const morgan = require("morgan");
 const cookieSession = require('cookie-session');
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
+const bodyParser = require("body-parser");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -27,6 +28,15 @@ app.use(
     isSass: false, // false => scss, true => sass
   })
 );
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 app.use(express.static("public"));
 
