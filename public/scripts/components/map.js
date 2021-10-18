@@ -11,7 +11,6 @@ $(() => {
     $('#map').empty();
   };
 
-  // clearMap();
   const mapPromise = new Promise((resolve, reject) => {
     clearMap();
     $('main').prepend(mapHtml);
@@ -34,6 +33,7 @@ $(() => {
         zoom: zoom,
       });
   };
+
   const getMapbyID = function(id) {
     // console.log("get map by id");
     return $.ajax({
@@ -41,16 +41,21 @@ $(() => {
     });
   };
 
-  const testID1 = 4;
-  mapPromise
-    .then(() => getMapbyID(testID1))
-    .then((json) => {
-      // console.log(json.maps[0]);
-      let lat, lng, zoom;
-      ({lat, lng, zoom} = json.maps[0]);
-      console.log(lat,lng,zoom);
-      initMap(lng, lat, zoom);
-    });
+  // Testing id for map
+  const testID1 = 5;
+
+  const diplayMap = (mapID) => {
+    mapPromise
+      .then(() => getMapbyID(mapID))
+      .then((json) => {
+        // console.log(json.maps[0]);
+        let lat, lng, zoom;
+        ({lat, lng, zoom} = json.maps[0]);
+        // console.log(lat,lng,zoom);
+        initMap(lng, lat, zoom);
+      });
+  };
+  diplayMap(testID1);
 });
 
 
