@@ -29,23 +29,24 @@ $(() => {
     lng,
     zoom,
     points = []) {
+    // Make map
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
         center: {lat,lng},
         zoom: zoom,
       });
-    let pointsArr = [];
+
+    // Make points in map
     for (let elem of points) {
-      pointsArr.push(
-        new google.maps.Marker({
-          position: {
-            lat : elem.point_lat,
-            lng : elem.point_lng
-          },
-          map: map,
-        })
-      );
+      new google.maps.Marker({
+        position: {
+          lat : elem.point_lat,
+          lng : elem.point_lng
+        },
+        map: map,
+        title: elem.title
+      });
     }
   };
 
@@ -85,7 +86,9 @@ $(() => {
   displayMap(testID1);
   getPointsbyMapID(testID1)
     .then((json) => {
-      console.log(json.points);
+      for (let elem of json.points) {
+        console.log(elem.title, elem.point_lat, elem.point_lng);
+      }
     });
 });
 
