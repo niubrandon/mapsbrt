@@ -7,10 +7,13 @@ $(() => {
       defer
     ></script>
   `;
+
   const clearMap = function() {
     $('#map').empty();
   };
 
+  // mapPromise removes the #map element and prepends a
+  // new #map div to the main tag
   const mapPromise = new Promise((resolve, reject) => {
     clearMap();
     $('main').prepend(mapHtml);
@@ -19,16 +22,15 @@ $(() => {
     },100);
   });
 
-  // eslint-disable-next-line func-style
+  // function init Map creates a google map in the #map element
+  // with center at (lat,long) and a zoom level of (zoom)
   const initMap = function(
     lat,
     lng,
     zoom) {
-    // Async script executes immediately and must be after any DOM elements used in callback.
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
-        // center: { lat: -34.397, lng: 150.644 },
         center: {lat,lng},
         zoom: zoom,
       });
@@ -44,6 +46,9 @@ $(() => {
   // Testing id for map
   const testID1 = 5;
 
+  // display Map takes in a single number(mapID)
+  // and prepend a google maps element to the $main tag
+  // where the map displayed has id mapID
   const diplayMap = (mapID) => {
     mapPromise
       .then(() => getMapbyID(mapID))
@@ -55,6 +60,8 @@ $(() => {
         initMap(lng, lat, zoom);
       });
   };
+
+  // testing run
   diplayMap(testID1);
 });
 
