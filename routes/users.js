@@ -90,6 +90,7 @@ module.exports = function(router, database) {
         return;
       }
       req.session.userName = data.name;
+      req.session.userId = data.id;
       res.send({user: {name: data.name, email: data.email, password: data.password}});
     })
       .catch(e => res.send(e));
@@ -100,6 +101,24 @@ module.exports = function(router, database) {
     req.session = null;
     res.status(201).send("user successfully logout");
   });
+
+  router.get("/fav/maps", (req, res) => {
+    userId = req.session.userId;
+    if (!userId) {
+      res.error("Not found");
+      return;
+    }
+    database.getAllFavMapsOfUser(userId)
+      .then(maps => {
+        res.send({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   //obselete code. doesn't return the json object to client
   //check dababase if user exist and check password
