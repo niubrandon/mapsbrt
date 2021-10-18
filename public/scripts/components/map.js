@@ -59,8 +59,8 @@ $(() => {
     for (let elem of points) {
       markerList.push(new google.maps.Marker({
         position: {
-          lat : elem.point_lng,
-          lng : elem.point_lat
+          lat : elem.point_lat,
+          lng : elem.point_lng
         },
         icon: image,
         map: map,
@@ -113,7 +113,7 @@ $(() => {
         // console.log(lat,lng,zoom);
         // let points = [];
         // console.log('points', points);
-        initMap(lng, lat, zoom, points);
+        initMap(lat, lng, zoom, points);
       });
   };
 
