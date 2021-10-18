@@ -4,6 +4,7 @@ const users = require('../data/users.json');
 const points = require('../data/points.json');
 //db call
 const db = require('../db/index');
+
 /**
  *
  * @param {*} limit
@@ -16,9 +17,26 @@ const getAllMaps = function(limit = 10) {
   FROM maps
   LIMIT $1
  `;
- return db.query(queryString, [limit], false);
-}
+  return db.query(queryString, [limit], false);
+};
 exports.getAllMaps = getAllMaps;
+
+/**
+ * GET MAPS BY the map ID
+ * @param {*} mapid
+ * @returns
+ * A single map from maps
+ */
+const getMapbyID = function(id = 1) {
+  console.log('indb');
+  const queryString =  `
+  SELECT *
+  FROM maps
+  WHERE maps.id = $1
+ `;
+  return db.query(queryString, [id], false);
+};
+exports.getMapbyID = getMapbyID;
 
 /**
  *

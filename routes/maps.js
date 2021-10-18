@@ -1,12 +1,13 @@
 /*
  * All routes for MAPS are defined here
  * Since this file is loaded in server.js into api/MAPS,
- *   these routes are mounted onto /MAPS
+ *   these routes are mounted onto /widget
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
 
 module.exports = function(router, database) {
+
   router.get("/", (req, res) => {
     database.getAllMaps()
       .then(maps => {
@@ -18,6 +19,23 @@ module.exports = function(router, database) {
           .json({ error: err.message });
       });
   });
+
+  // Get single map
+  router.get("/:id", (req, res) => {
+    database.getMapbyID(req.id)
+      .then(
+        maps => {
+          // console.log('single map?');
+          res.send({ maps });
+        })
+      .catch(err => {
+        // console.log('single map err?');
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   //if authenticated user - user created maps
   //can change route name

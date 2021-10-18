@@ -1,7 +1,8 @@
 $(() => {
   window.mapListing = {};
 
-  function ListMap(maps, isFav) { console.log(isFav);
+  function ListMap(maps, isFav) {
+    // console.log(isFav);
     return `
     <div class="col">
       <div class="card h-100">

@@ -31,12 +31,23 @@ $(() => {
         zoom: 8,
       });
   };
+  const getMapbyID = function(id) {
+    // console.log("get map by id");
+    return $.ajax({
+      url: `/api/maps/${id}`,
+    });
+  };
 
-  mapPromise.then(() => {
+  const testID1 = 1;
+  getMapbyID(testID1).then((json) => {
+    console.log(json.maps);
+    return mapPromise;
+  }).then(() => {
     initMap();
   });
 
 });
+
 
 
 
