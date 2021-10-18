@@ -21,14 +21,17 @@ $(() => {
   });
 
   // eslint-disable-next-line func-style
-  const initMap = function() {
+  const initMap = function(
+    lat,
+    lng,
+    zoom) {
     // Async script executes immediately and must be after any DOM elements used in callback.
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
-      // center: { lat: -34.397, lng: 150.644 },
-        center: { lat: 49.284159, lng: -123.125478 },
-        zoom: 8,
+        // center: { lat: -34.397, lng: 150.644 },
+        center: {lat,lng},
+        zoom: zoom,
       });
   };
   const getMapbyID = function(id) {
@@ -38,14 +41,16 @@ $(() => {
     });
   };
 
-  const testID1 = 1;
-  getMapbyID(testID1).then((json) => {
-    console.log(json.maps);
-    return mapPromise;
-  }).then(() => {
-    initMap();
-  });
-
+  const testID1 = 4;
+  mapPromise
+    .then(() => getMapbyID(testID1))
+    .then((json) => {
+      // console.log(json.maps[0]);
+      let lat, lng, zoom;
+      ({lat, lng, zoom} = json.maps[0]);
+      console.log(lat,lng,zoom);
+      initMap(lng, lat, zoom);
+    });
 });
 
 

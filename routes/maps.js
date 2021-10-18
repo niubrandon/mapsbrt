@@ -22,10 +22,10 @@ module.exports = function(router, database) {
 
   // Get single map
   router.get("/:id", (req, res) => {
-    database.getMapbyID(req.id)
+    database.getMapbyID(req.params.id)
       .then(
         maps => {
-          // console.log('single map?');
+          // console.log('req params',req.params.id);
           res.send({ maps });
         })
       .catch(err => {
