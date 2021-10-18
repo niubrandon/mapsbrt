@@ -1,28 +1,45 @@
 
-// Async script executes immediately and must be after any DOM elements used in callback.
+$(() => {
+  const mapHtml = `
+  <div id="map"></div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
+      defer
+    ></script>
+  `;
+  const clearMap = function() {
+    $('#map').empty();
+  };
 
-const mapHtml = `<div id="map"></div>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
-  async
-></script>`;
-
-$('main').prepend(mapHtml);
-
-let map;
-
-const clearMap = function() {
-  $('#map').empty();
-};
-
-// eslint-disable-next-line func-style
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    // center: { lat: -34.397, lng: 150.644 },
-    center: { lat: 49.284159, lng: -123.125478 },
-    zoom: 8,
+  // clearMap();
+  const mapPromise = new Promise((resolve, reject) => {
+    clearMap();
+    $('main').prepend(mapHtml);
+    setTimeout(() => {
+      resolve();
+    },100);
   });
-}
+
+  // eslint-disable-next-line func-style
+  const initMap = function() {
+    // Async script executes immediately and must be after any DOM elements used in callback.
+    const map = new google.maps.Map(
+      document.getElementById("map"),
+      {
+      // center: { lat: -34.397, lng: 150.644 },
+        center: { lat: 49.284159, lng: -123.125478 },
+        zoom: 8,
+      });
+  };
+
+  mapPromise.then(() => {
+    initMap();
+  });
+
+});
+
+
+
 
 
 
