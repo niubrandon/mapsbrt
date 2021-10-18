@@ -1,7 +1,7 @@
 /*
- * All routes for Widgets are defined here
- * Since this file is loaded in server.js into api/widgets,
- *   these routes are mounted onto /widgets
+ * All routes for MAPS are defined here
+ * Since this file is loaded in server.js into api/MAPS,
+ *   these routes are mounted onto /MAPS
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
