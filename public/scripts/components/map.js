@@ -90,7 +90,7 @@ $(() => {
     return $.ajax({
       url: `/api/maps/${id}/points`,
     });
-  };
+  }
 
   // Testing id for map
   const testID1 = 1;
