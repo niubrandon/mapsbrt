@@ -21,4 +21,26 @@ $(document).ready(function() {
     //post ajax to remove cookie
   });
 
+  const $main = $('#main-content');
+  //profile section
+  $(document).on("click", "#profile", (event) => {
+    event.preventDefault();
+    mapListings.clearListings();
+    $("#Mymaps").trigger("click");
+    $profileView.appendTo($main);
+
+  })
+
+  $(document).on("click", "#Mymaps", function(event) {
+    event.preventDefault();
+    profileList.clearDiv(this);
+    profileList.getListOfUserMaps($($(this).attr("href")));
+  });
+
+  $(document).on("click", "#favMapList", function(event) {
+    event.preventDefault();
+    profileList.clearDiv(this);
+    profileList.getListOfFavouriteMaps($($(this).attr("href")));
+  });
+
 });
