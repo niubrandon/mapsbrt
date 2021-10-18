@@ -61,14 +61,14 @@ exports.getPointsbyMapID = getPointsbyMapID;
  * @returns
  */
 const getAllUserMaps = function(userId, limit = 3) {
-  const availableMaps = {};
-  for (let i = 1; i <= limit; i++) {
-    if (maps[i].creator_id === userId) {
-      availableMaps[i] = maps[i];
-    }
-  }
-  console.log(availableMaps);
-  return Promise.resolve(availableMaps);
+  const queryString =  `
+  SELECT *
+  FROM maps
+  WHERE creator_id = $1
+  LIMIT $2
+ `;
+ const values = [userId, limit];
+ return db.query(queryString, values, false);
 }
 exports.getAllUserMaps = getAllUserMaps;
 
@@ -108,3 +108,21 @@ const findUserFromUsername = function(user) {
 };
 
 exports.findUserFromUsername = findUserFromUsername;
+
+/**
+ *
+ * @param {*} userId
+ */
+const getAllFavMapsOfUser = function(userId, limit = 10) {
+  const queryString = `
+  SELECT * FROM maps
+  JOIN favorites ON maps.id = map_id
+  JOIN users ON users.id = user_id
+  WHERE user_id = $1
+  LIMIT $2;`
+
+  const values = [userId, limit];
+  return db.query(queryString, values, false);
+}
+
+exports.getAllFavMapsOfUser = getAllFavMapsOfUser;

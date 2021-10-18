@@ -54,19 +54,21 @@ module.exports = function(router, database) {
 
 
   //if authenticated user - user created maps
-  //can change route name
-  router.get("/me", (req, res) => {
-    //dummy
-    userId = 1;
+  router.get("/usermaps", (req, res) => {
+    userId = req.session.userId;
+    if (!userId) {
+      res.error("Not found");
+      return;
+    }
     database.getAllUserMaps(userId)
-      .then(maps => {
-        res.send({ maps });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    .then(maps => {
+      res.send({ maps });
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
   });
 
   return router;
