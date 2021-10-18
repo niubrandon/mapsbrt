@@ -41,7 +41,7 @@ module.exports = function(router, database) {
     database.getPointsbyMapID(req.params.id)
       .then(
         points => {
-          console.log('points param',req.params.id);
+          // console.log('points param',req.params.id);
           res.send({ points });
         })
       .catch(err => {

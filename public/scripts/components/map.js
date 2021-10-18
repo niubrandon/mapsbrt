@@ -22,6 +22,7 @@ $(() => {
     },100);
   });
 
+
   // function init Map creates a google map in the #map element
   // with center at (lat,long) and a zoom level of (zoom)
   const initMap = function(
@@ -37,15 +38,33 @@ $(() => {
         zoom: zoom,
       });
 
+    // Marker image
+    const image = {
+      url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+      // This marker is 20 pixels wide by 32 pixels high.
+      size: new google.maps.Size(20, 32),
+      // The origin for this image is (0, 0).
+      origin: new google.maps.Point(0, 0),
+      // The anchor for this image is the base of the flagpole at (0, 32).
+      anchor: new google.maps.Point(0, 32),
+    };
+
+    // Image clickable region
+    const shape = {
+      coords: [1, 1, 1, 20, 18, 20, 18, 1],
+      type: "poly",
+    };
     // Make points in map
     for (let elem of points) {
       new google.maps.Marker({
         position: {
-          lat : elem.point_lat,
-          lng : elem.point_lng
+          lat : elem.point_lng,
+          lng : elem.point_lat
         },
+        icon: image,
         map: map,
-        title: elem.title
+        title: elem.title,
+        shape: shape,
       });
     }
   };
@@ -72,24 +91,47 @@ $(() => {
   // where the map displayed has id mapID
   const displayMap = (mapID) => {
     mapPromise
-      .then(() => getMapbyID(mapID))
-      .then((json) => {
-        // console.log(json.maps[0]);
+      .then(() => {
+        return Promise.all([
+          getMapbyID(testID1),
+          getPointsbyMapID(testID1)
+        ]);
+      }).then(results => {
+        console.log('all result', results);
         let lat, lng, zoom;
-        ({lat, lng, zoom} = json.maps[0]);
-        // console.log(lat,lng,zoom);
-        initMap(lng, lat, zoom);
+        ({lat, lng, zoom} = results[0].maps[0]);
+        let points = results[1].points;
+        console.log(lat,lng,zoom);
+        // let points = [];
+        console.log('points', points);
+        initMap(lng, lat, zoom, points);
       });
+      // .then(() => getMapbyID(mapID))
+      // .then((json) => {
+      //   // console.log(json.maps[0]);
+      //   let lat, lng, zoom;
+      //   ({lat, lng, zoom} = json.maps[0]);
+      //   // console.log(lat,lng,zoom);
+      //   initMap(lng, lat, zoom);
+      // });
   };
 
   // testing run
   displayMap(testID1);
-  getPointsbyMapID(testID1)
-    .then((json) => {
-      for (let elem of json.points) {
-        console.log(elem.title, elem.point_lat, elem.point_lng);
-      }
-    });
+  // getPointsbyMapID(testID1)
+  //   .then((json) => {
+  //     for (let elem of json.points) {
+  //       console.log(elem.title, elem.point_lat, elem.point_lng);
+  //     }
+  //   });
+
+  // Promise.all([
+  //   getMapbyID(testID1),
+  //   getPointsbyMapID(testID1)
+  // ]).then(result =>{
+  //   console.log('just',result);
+  // });
+
 });
 
 
