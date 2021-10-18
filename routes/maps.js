@@ -36,6 +36,22 @@ module.exports = function(router, database) {
       });
   });
 
+  // Get points of single map
+  router.get("/:id/points", (req, res) => {
+    database.getPointsbyMapID(req.params.id)
+      .then(
+        points => {
+          console.log('points param',req.params.id);
+          res.send({ points });
+        })
+      .catch(err => {
+        // console.log('single map err?');
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   //if authenticated user - user created maps
   //can change route name
@@ -52,7 +68,6 @@ module.exports = function(router, database) {
           .json({ error: err.message });
       });
   });
-
 
   return router;
 };

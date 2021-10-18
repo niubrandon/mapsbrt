@@ -27,17 +27,33 @@ exports.getAllMaps = getAllMaps;
  * @returns
  * A single map from maps
  */
-const getMapbyID = function(id = 1) {
-  console.log('indb');
+const getMapbyID = function(mapid = 1) {
+  // console.log('indb');
   const queryString =  `
   SELECT *
   FROM maps
   WHERE maps.id = $1
  `;
-  return db.query(queryString, [id], false);
+  return db.query(queryString, [mapid], false);
 };
 exports.getMapbyID = getMapbyID;
 
+/**
+ * GET points BY the map ID
+ * @param {*} mapid
+ * @returns
+ * A single map from maps
+ */
+const getPointsbyMapID = function(mapid = 1) {
+  const queryString =  `
+  SELECT *
+  FROM points
+  WHERE points.map_id = $1
+ `;
+  return db.query(queryString, [mapid], false);
+};
+
+exports.getPointsbyMapID = getPointsbyMapID;
 /**
  *
  * @param {*} userId

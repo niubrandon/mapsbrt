@@ -27,13 +27,26 @@ $(() => {
   const initMap = function(
     lat,
     lng,
-    zoom) {
+    zoom,
+    points = []) {
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
         center: {lat,lng},
         zoom: zoom,
       });
+    let pointsArr = [];
+    for (let elem of points) {
+      pointsArr.push(
+        new google.maps.Marker({
+          position: {
+            lat : elem.point_lat,
+            lng : elem.point_lng
+          },
+          map: map,
+        })
+      );
+    }
   };
 
   const getMapbyID = function(id) {
@@ -43,13 +56,20 @@ $(() => {
     });
   };
 
+  const getPointsbyMapID = function(id) {
+    // console.log("get map by id");
+    return $.ajax({
+      url: `/api/maps/${id}/points`,
+    });
+  };
+
   // Testing id for map
-  const testID1 = 5;
+  const testID1 = 1;
 
   // display Map takes in a single number(mapID)
   // and prepend a google maps element to the $main tag
   // where the map displayed has id mapID
-  const diplayMap = (mapID) => {
+  const displayMap = (mapID) => {
     mapPromise
       .then(() => getMapbyID(mapID))
       .then((json) => {
@@ -62,13 +82,12 @@ $(() => {
   };
 
   // testing run
-  diplayMap(testID1);
+  displayMap(testID1);
+  getPointsbyMapID(testID1)
+    .then((json) => {
+      console.log(json.points);
+    });
 });
-
-
-
-
-
 
 
 //add marker
