@@ -2,7 +2,7 @@ $(() => {
   const $main = $('#main-content');
 
   getAllMaps()
-  .then(function( json ) {console.log(json.maps);
+  .then(function( json ) {
     mapListings.ListAllMaps(json.maps);
     $mapListings.appendTo($main);
   });
