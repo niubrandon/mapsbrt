@@ -1,127 +1,154 @@
 
-// Async script executes immediately and must be after any DOM elements used in callback.
+$(() => {
+  const mapHtml = `
+  <div id="map"></div>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
+      defer
+    ></script>
+  `;
 
-const mapHtml = `<div id="map"></div>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
-  async
-></script>`;
+  const clearMap = function() {
+    $('#map').empty();
+  };
 
-$('main').prepend(mapHtml);
-
-let map;
-
-const clearMap = function() {
-  $('#map').empty();
-};
-
-// eslint-disable-next-line func-style
-function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    // center: { lat: -34.397, lng: 150.644 },
-    center: { lat: 49.284159, lng: -123.125478 },
-    zoom: 8,
+  // mapPromise removes the #map element and prepends a
+  // new #map div to the main tag
+  const mapPromise = new Promise((resolve, reject) => {
+    clearMap();
+    $('main').prepend(mapHtml);
+    setTimeout(() => {
+      resolve();
+    },100);
   });
-}
 
+
+  // function init Map creates a google map in the #map element
+  // with center at (lat,long) and a zoom level of (zoom)
+  const initMap = function(
+    lat,
+    lng,
+    zoom,
+    points = []) {
+    // Make map
+    const map = new google.maps.Map(
+      document.getElementById("map"),
+      {
+        center: {lat,lng},
+        zoom: zoom,
+      });
+
+    // Marker image
+    const image = {
+      url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+      // This marker is 20 pixels wide by 32 pixels high.
+      size: new google.maps.Size(20, 32),
+      // The origin for this image is (0, 0).
+      origin: new google.maps.Point(0, 0),
+      // The anchor for this image is the base of the flagpole at (0, 32).
+      anchor: new google.maps.Point(0, 32),
+    };
+
+    // Image clickable region
+    const shape = {
+      coords: [1, 1, 1, 20, 18, 20, 18, 1],
+      type: "poly",
+    };
+    let markerList = [];
+    // Make points in map
+    for (let elem of points) {
+      markerList.push(new google.maps.Marker({
+        position: {
+          lat : elem.point_lat,
+          lng : elem.point_lng
+        },
+        icon: image,
+        map: map,
+        title: elem.title,
+        shape: shape,
+
+      }));
+    }
+    for (let elem of markerList) {
+      elem.addListener("click", () => {
+        map.setZoom(8);
+        map.setCenter(elem.getPosition());
+      });
+    }
+    console.log(markerList);
+  };
+
+  const getMapbyID = function(id) {
+    // console.log("get map by id");
+    return $.ajax({
+      url: `/api/maps/${id}`,
+    });
+  };
+
+  const getPointsbyMapID = function(id) {
+    // console.log("get map by id");
+    return $.ajax({
+      url: `/api/maps/${id}/points`,
+    });
+  };
+
+  // Testing id for map
+  const testID1 = 1;
+
+  // display Map takes in a single number(mapID)
+  // and prepend a google maps element to the $main tag
+  // where the map displayed has id mapID
+  const displayMap = (mapID) => {
+    mapPromise
+      .then(() => {
+        return Promise.all([
+          getMapbyID(testID1),
+          getPointsbyMapID(testID1)
+        ]);
+      }).then(results => {
+        // console.log('all result', results);
+        let lat, lng, zoom;
+        ({lat, lng, zoom} = results[0].maps[0]);
+        let points = results[1].points;
+        // console.log(lat,lng,zoom);
+        // let points = [];
+        // console.log('points', points);
+        initMap(lat, lng, zoom, points);
+      });
+  };
+
+  // testing run
+  displayMap(testID1);
+  // getPointsbyMapID(testID1)
+  //   .then((json) => {
+  //     for (let elem of json.points) {
+  //       console.log(elem.title, elem.point_lat, elem.point_lng);
+  //     }
+  //   });
+
+  // Promise.all([
+  //   getMapbyID(testID1),
+  //   getPointsbyMapID(testID1)
+  // ]).then(result =>{
+  //   console.log('just',result);
+  // });
+
+});
 
 
 //add marker
 //UI events: click
+//  const elevationService = google.maps.ElevationService();
+// const locations = [{lat: 27.986065, lng:86.922623}];
+// const promise = elevationService.getElevationForLocation({locations});
 
-
-/* const elevationService = google.maps.ElevationService();
-const locations = [{lat: 27.986065, lng:86.922623}];
-
-const promise = elevationService.getElevationForLocation({locations});
-
-promise
-    .then((response) => {
-      console.log(response.results);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    .finally(() => {
-      console.log('done');
-    }); */
-
-
-//add a marker on the map
-/*
-    function initMap() {
-      const myLatLng = { lat: -25.363, lng: 131.044 };
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: myLatLng,
-      });
-
-      new google.maps.Marker({
-        position: myLatLng,
-        map,
-        title: "Hello World!",
-      });
-    } */
-
-
-/*  marker.setMap(null); */
-
-
-// The following example creates complex markers to indicate beaches near
-// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
-// to the base of the flagpole.
-/* function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 10,
-    center: { lat: -33.9, lng: 151.2 },
-  });
-
-  setMarkers(map);
-}
- */
-// Data for the markers consisting of a name, a LatLng and a zIndex for the
-// order in which these markers should display on top of each other.
-/* const beaches = [
-  ["Bondi Beach", -33.890542, 151.274856, 4],
-  ["Coogee Beach", -33.923036, 151.259052, 5],
-  ["Cronulla Beach", -34.028249, 151.157507, 3],
-  ["Manly Beach", -33.80010128657071, 151.28747820854187, 2],
-  ["Maroubra Beach", -33.950198, 151.259302, 1],
-];
- */
-/* function setMarkers(map) {
-  // Adds markers to the map.
-  // Marker sizes are expressed as a Size of X,Y where the origin of the image
-  // (0,0) is located in the top left of the image.
-  // Origins, anchor positions and coordinates of the marker increase in the X
-  // direction to the right and in the Y direction down.
-  const image = {
-    url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-    // This marker is 20 pixels wide by 32 pixels high.
-    size: new google.maps.Size(20, 32),
-    // The origin for this image is (0, 0).
-    origin: new google.maps.Point(0, 0),
-    // The anchor for this image is the base of the flagpole at (0, 32).
-    anchor: new google.maps.Point(0, 32),
-  };
-  // Shapes define the clickable region of the icon. The type defines an HTML
-  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
-  // The final coordinate closes the poly by connecting to the first coordinate.
-  const shape = {
-    coords: [1, 1, 1, 20, 18, 20, 18, 1],
-    type: "poly",
-  };
-
-  for (let i = 0; i < beaches.length; i++) {
-    const beach = beaches[i];
-
-    new google.maps.Marker({
-      position: { lat: beach[1], lng: beach[2] },
-      map,
-      icon: image,
-      shape: shape,
-      title: beach[0],
-      zIndex: beach[3],
-    });
-  }
-} */
+// promise
+//     .then((response) => {
+//       console.log(response.results);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+//     .finally(() => {
+//       console.log('done');
+//     }); */
