@@ -3,7 +3,7 @@ $(document).ready(function() {
   /*
           logout need to be fixed for repeated lognin/logout
         */
-  console.log("header file runs");
+  // console.log("header file runs");
   const $loginRegisterForm = `
           <button id="register" class="btn btn-primary" type="submit">Register</button>
           <button id="login" class="btn btn-primary" type="submit">Login</button>`;

@@ -1,6 +1,6 @@
 -- Maps table seeds here
 
-INSERT INTO maps(title,description,lng,lat,zoom,creator_id)
+INSERT INTO maps(title,description,lat,lng,zoom,creator_id)
   VALUES ('Japanese Food', 'Japanese foods', 49.284159, - 123.125478, 18, 1),
 
   ('Cinemas','Cinema Theatres' , 35.686278, 139.737871, 18, 1),
