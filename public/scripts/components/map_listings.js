@@ -28,4 +28,9 @@ $(() => {
     }
   }
   window.mapListings.ListAllMaps = ListAllMaps;
-})
+  $(".btn btn-primary").click(
+    function() {
+      console.log(this.value);
+      console.log('clickcincidjsjdf');
+    });
+});

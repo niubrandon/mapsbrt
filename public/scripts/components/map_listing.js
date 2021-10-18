@@ -21,7 +21,7 @@ $(() => {
             ${maps.description}
           </p>
         </div>
-        <button class="btn btn-primary">Details</button>
+        <button class="btn btn-primary" value = "${maps.id}">Details</button>
       </div>
     </div>`
   }
