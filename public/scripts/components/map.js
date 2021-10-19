@@ -99,7 +99,23 @@ $(() => {
         });
       });
     }
-    console.log(markerList);
+
+    // Making Map listeners
+    const tempPoint = new google.maps.Marker({
+      map: map,
+      position: map.center
+    });
+
+    google.maps.event.addListener(
+      map,
+      "click",
+      (event) => {
+        console.log(event.latLng);
+        tempPoint.position = event.latLng,
+        tempPoint.map = map;
+      }
+    );
+    // console.log(markerList);
   };
 
   window.$mapObj.initMap = initMap;
