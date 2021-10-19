@@ -101,18 +101,47 @@ $(() => {
     }
 
     // Making Map listeners
-    const tempPoint = new google.maps.Marker({
-      map: map,
-      position: map.center
-    });
+    let tempPoints = [];
+
+    const addMarker = (array, pos) => {
+      const currMarker = new google.maps.Marker({
+        map: map,
+        position: pos
+      });
+      const pointForm = `
+      <div> the new point forms goes here</div>
+      `;
+      const newInfo = new google.maps.InfoWindow({
+        content: pointForm,
+      });
+
+      currMarker.addListener("click", () => {
+        map.setZoom(zoom);
+        map.setCenter(currMarker.getPosition());
+        newInfo.open({
+          anchor: currMarker,
+          map: map,
+          shouldFocus: false,
+        });
+      });
+      array.push(currMarker);
+    };
+
+    window.tempPoints = tempPoints;
+
+    addMarker(tempPoints, map.center);
 
     google.maps.event.addListener(
       map,
       "click",
       (event) => {
-        console.log(event.latLng);
-        tempPoint.position = event.latLng,
-        tempPoint.map = map;
+        for (let elem of tempPoints) {
+          // Have to use the setmap function
+          elem.setMap(null);
+        }
+        tempPoints = [];
+        // console.log(event.latLng);
+        addMarker(tempPoints, event.latLng);
       }
     );
     // console.log(markerList);
