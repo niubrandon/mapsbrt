@@ -48,13 +48,43 @@ module.exports = function(router, database) {
   exports.login = login;
 
 
+
+  const register = function(user) {
+    console.log("register function called to check if username and email already in database", user);
+    //return a promise
+    return database.findUserFromUsernameAndEmail(user).then(data => {
+      if (data) {
+        console.log("username or email already in database", data);
+        //return a error message so front end can prompt to use a different username or email
+      } else {
+        //username and email is good for registration
+        console.log("username and email is goof for registration", data);
+      }
+    });
+  };
+
+  exports.register = register;
+
   /*
   user registration route
   --fix edge case later if username and email is already in the database
   */
   router.post('/register', (req, res) => {
+
     const user = req.body;
-    user.password = bcrypt.hashSync(req.body.password, salt);
+    console.log("check if register function works", register(user));
+    register(user).then((data) => {
+      //when data is null, start registration
+
+      //when there is data, send message to client
+    }).catch(err => {
+      res.send({error: "error"});
+    });
+
+
+
+
+   /*  user.password = bcrypt.hashSync(req.body.password, salt);
     database.addUser(user)
       .then(data => {
         if (!data) {
@@ -65,7 +95,7 @@ module.exports = function(router, database) {
         res.send({user:{name: data.name, email: data.email, password: data.password}});
 
       })
-      .catch(e => res.send(e));
+      .catch(e => res.send(e)); */
   });
 
 

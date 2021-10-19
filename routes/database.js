@@ -144,3 +144,20 @@ const addMapFromAuthUser = function(data, userId) {
 };
 
 exports.addMapFromAuthUser = addMapFromAuthUser;
+
+
+/*
+findUserFromUsernameAndEmail for pre-registration check
+input with user object from post ajax form submittion
+*/
+
+const findUserFromUsernameAndEmail = function(user) {
+  const {username, email} = user;
+  const queryString = `
+  SELECT * FROM users
+  WHERE name = $1 OR email = $2 LIMIT 1;`;
+  return db.query(queryString, [username, email], true);
+
+};
+
+exports.findUserFromUsernameAndEmail = findUserFromUsernameAndEmail;
