@@ -147,6 +147,20 @@ exports.addMapFromAuthUser = addMapFromAuthUser;
 
 
 /*
+Delete a map from auth user
+*/
+const deleteMapFromAuthUser = function(mapId) {
+  const queryString = `
+  DELETE FROM maps
+  WHERE id = $1;
+  RETURNING *;
+  `;
+  return db.query(queryString, [mapId], true);
+};
+
+exports.deleteMapFromAuthUser = deleteMapFromAuthUser;
+
+/*
 findUserFromUsernameAndEmail for pre-registration check
 input with user object from post ajax form submittion
 */
