@@ -48,17 +48,16 @@ module.exports = function(router, database) {
   exports.login = login;
 
 
-
+/*
+register helper function
+given input with user object when register new user and return a promise with user information
+*/
   const register = function(user) {
-    console.log("register function called to check if username and email already in database", user);
-    //return a promise
     return database.findUserFromUsernameAndEmail(user).then(data => {
       if (data) {
-        console.log("username or email already in database", data);
-        //return a error message so front end can prompt to use a different username or email
+        return data;
       } else {
-        //username and email is good for registration
-        console.log("username and email is goof for registration", data);
+        return null;
       }
     });
   };
@@ -67,35 +66,33 @@ module.exports = function(router, database) {
 
   /*
   user registration route
-  --fix edge case later if username and email is already in the database
+  -check if username or email is in system. if not proceed registration process
   */
   router.post('/register', (req, res) => {
 
     const user = req.body;
-    console.log("check if register function works", register(user));
     register(user).then((data) => {
-      //when data is null, start registration
 
-      //when there is data, send message to client
-    }).catch(err => {
-      res.send({error: "error"});
+      if (!data) {
+        user.password = bcrypt.hashSync(req.body.password, salt);
+        database.addUser(user)
+          .then(data => {
+            if (!data) {
+              res.send({error: "error from addUser query at server side"});
+              return;
+            }
+            console.log("added user into database", data, data.id);
+            req.session.userId = data.id;
+            req.session.userName = data.username;
+
+            res.send({user:{name: data.name, email: data.email, password: data.password}});
+
+          })
+          .catch(e => res.send(e));
+      } else {
+        res.status(401).send({error: "username or email already exists, please register with a different username or email"});
+      }
     });
-
-
-
-
-   /*  user.password = bcrypt.hashSync(req.body.password, salt);
-    database.addUser(user)
-      .then(data => {
-        if (!data) {
-          res.send({error: "error"});
-          return;
-        }
-        req.session.userName = data.username;
-        res.send({user:{name: data.name, email: data.email, password: data.password}});
-
-      })
-      .catch(e => res.send(e)); */
   });
 
 
