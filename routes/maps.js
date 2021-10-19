@@ -58,6 +58,7 @@ module.exports = function(router, database) {
 
   // Get points of single map
   router.get("/:id/points", (req, res) => {
+    console.log('getting point');
     database.getPointsbyMapID(req.params.id)
       .then(
         points => {
@@ -74,7 +75,7 @@ module.exports = function(router, database) {
 
   // Post a new point of single map
   router.post("/:id/points", (req, res) => {
-    console.log('posting point');
+    console.log('posting point', req.body);
     database.postPointsbyMapID(req.params.id)
       .then(
         points => {

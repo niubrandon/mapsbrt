@@ -99,8 +99,6 @@ $(() => {
       });
     }
 
-
-
     // Making points for map onclick listeners
     let tempPoints = [];
 
@@ -110,11 +108,11 @@ $(() => {
         position: pos
       });
 
-      const pointForm = `<form id="points-form" method="post" action="/api/maps/${window.$mapObj.mapid}/points">
+      const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>this is map id ${window.$mapObj.mapid}</div>
-      <input id="point-title" name="point-title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
+      <input id="point-title"  name="point-title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
-      <button class="btn btn-primary" type="submit">submit</button>
+      <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
 
       const newInfo = new google.maps.InfoWindow({
@@ -129,22 +127,12 @@ $(() => {
           map: map,
           shouldFocus: false,
         });
-        newInfo.preventDefault;
-        // Submitting new form
-        $(document).on(
-          "submit",
-          "#points-form",
-          function(event) {
-            event.preventDefault();
-            console.log('here?');
-            console.log('submitting vals');
-            const serializeData = $("#points-form").serialize();
-            console.log(serializeData);
-          });
+
         // console.log(newInfo);
       });
       array.push(currMarker);
     };
+
 
     window.tempPoints = tempPoints;
 
@@ -167,7 +155,27 @@ $(() => {
     // console.log(markerList);
   };
 
+  // newInfo.preventDefault;
+  // Submitting new form
+  $(document).on(
+    "submit",
+    "#points-form",
+    function(event) {
+      const currMapID = document.querySelector("#points-form > button").value;
+      console.log('currMapID',currMapID);
+      event.preventDefault();
+      const serializeData = $("#points-form").serialize();
+      const $title = $("#point-title").val();
+      const $description = $("#point-title").val();
+      // console.log($("#points-form").val());
+      // console.log(serializeData);
+      // console.log("where's map id", window.$mapObj.mapid);
+      $.post(`/api/maps/${currMapID}/points`, serializeData, (success) => {
+        // console.log('actually posted');
+      });
 
+      window.$mapObj.displayMap(window.$mapObj.mapid);
+    });
 
   window.$mapObj.initMap = initMap;
 
@@ -210,10 +218,10 @@ $(() => {
       });
   };
   window.$mapObj.displayMap = displayMap;
-  const testID1 = 1;
+  // const testID1 = 1;
   // testing run
 
-  window.$mapObj.displayMap(testID1);
+  // window.$mapObj.displayMap(testID1);
 
 });
 
