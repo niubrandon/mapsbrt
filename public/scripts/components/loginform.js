@@ -9,7 +9,7 @@ $(document).ready(function() {
   //register is clicked
   $(document).on("click","#login", (event)=> {
     console.log("login button clicked");
-    event.preventDefault;
+    event.preventDefault();
     $("#login").detach();
     $("#register").detach();
     //replace with the loginForm

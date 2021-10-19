@@ -126,3 +126,21 @@ const getAllFavMapsOfUser = function(userId, limit = 10) {
 }
 
 exports.getAllFavMapsOfUser = getAllFavMapsOfUser;
+
+/*
+Add a map from auth user
+hardcoded for 13 as admin
+*/
+
+const addMapFromAuthUser = function(data, userId) {
+  const {title, description, lng, lat, zoom} = data;
+  const queryString = `
+  INSERT INTO maps(title, description, lng, lat, zoom, creator_id)
+  VALUES($1, $2, $3, $4, $5, $6)
+  RETURNING *;
+  `;
+  return db.query(queryString, [title, description, lng, lat, zoom, userId], true);
+
+};
+
+exports.addMapFromAuthUser = addMapFromAuthUser;

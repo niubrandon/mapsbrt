@@ -11,7 +11,7 @@ $(document).ready(function() {
   //register is clicked
   $(document).on("click", "#register", (event)=> {
     console.log("register button clicked");
-    event.preventDefault;
+    event.preventDefault();
     $("#login").detach();
     $("#register").detach();
     //replace with the loginForm
