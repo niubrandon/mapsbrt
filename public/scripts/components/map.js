@@ -1,25 +1,29 @@
 
 $(() => {
 
-  const mapObj = {};
-
-  const mapHtml = `
+  const $mapObj = $(`
   <div id="map"></div>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8o57_awNF0j94rrWH3t0DUIR5VWgqeM0&callback=initMap&v=weekly"
       defer
     ></script>
-  `;
+  `);
+
+  window.$mapObj = $mapObj;
 
   const clearMap = function() {
-    $('#map').remove();
+    $('#map').empty();
   };
+
+  window.$mapObj.clearMap = clearMap;
+
+  $('main').prepend(window.$mapObj);
 
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
   const mapPromise = new Promise((resolve, reject) => {
-    clearMap();
-    $('main').prepend(mapHtml);
+    window.$mapObj.clearMap();
+    // $('main').prepend(mapHtml);
     setTimeout(() => {
       resolve();
     },100);
@@ -81,6 +85,9 @@ $(() => {
     console.log(markerList);
   };
 
+  window.$mapObj.initMap = initMap;
+
+
   const getMapbyID = function(id) {
     // console.log("get map by id");
     return $.ajax({
@@ -114,12 +121,14 @@ $(() => {
         // console.log(lat,lng,zoom);
         // let points = [];
         // console.log('points', points);
-        initMap(lat, lng, zoom, points);
+        $mapObj.initMap(lat, lng, zoom, points);
       });
   };
+  window.$mapObj.displayMap = displayMap;
   const testID1 = 1;
   // testing run
-  displayMap(testID1);
+
+  window.$mapObj.displayMap(testID1);
 
 });
 

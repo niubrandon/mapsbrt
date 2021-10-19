@@ -36,7 +36,7 @@ $(() => {
     function() {
       console.log($(this).val());
       // clearMap();
-      // displayMap($(this).val());
+      window.$mapObj.displayMap($(this).val());
       // console.log($(this).text());
       // console.log('clickcincidjsjdf');
     }
