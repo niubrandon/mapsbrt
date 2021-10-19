@@ -62,6 +62,7 @@ $(() => {
       type: "poly",
     };
     let markerList = [];
+
     // Make points in map
     for (let elem of points) {
       markerList.push(new google.maps.Marker({
@@ -76,10 +77,26 @@ $(() => {
 
       }));
     }
+
     for (let elem of markerList) {
+
+      // Texbox content Generated for each
+      const contentString =
+      `<div id="content">
+      ${elem.title}
+      </div>`;
+      const infowindow = new google.maps.InfoWindow({
+        content: contentString,
+      });
+
       elem.addListener("click", () => {
-        map.setZoom(8);
+        map.setZoom(zoom);
         map.setCenter(elem.getPosition());
+        infowindow.open({
+          anchor: elem,
+          map: map,
+          shouldFocus: false,
+        });
       });
     }
     console.log(markerList);
