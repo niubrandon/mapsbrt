@@ -29,13 +29,14 @@ $(() => {
       allMaps(listing);
     }
   }
+
   window.mapListings.ListAllMaps = ListAllMaps;
 
   $(document).on("click",".btn-primary",
     function() {
       console.log($(this).val());
-      clearMap();
-      displayMap($(this).val());
+      // clearMap();
+      // displayMap($(this).val());
       // console.log($(this).text());
       // console.log('clickcincidjsjdf');
     }
