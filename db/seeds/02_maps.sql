@@ -3,7 +3,7 @@
 INSERT INTO maps(title,description,lat,lng,zoom,creator_id)
   VALUES ('Japanese Food', 'Japanese foods', 49.284159, - 123.125478, 18, 1),
 
-  ('Cinemas','Cinema Theatres' , 35.686278, 139.737871, 18, 1),
+  ('Cinemas','Cinema Theatres' , 35.686278, -139.737871, 18, 1),
   ('Italian Cuisine', 'Best Italian food', 31.6278, 140.737871, 20, 3),
 
   ('Asian Food', 'Best Asian foods', 36.334, 134.737871, 20, 2),

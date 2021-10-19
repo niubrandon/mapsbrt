@@ -52,8 +52,24 @@ const getPointsbyMapID = function(mapid = 1) {
  `;
   return db.query(queryString, [mapid], false);
 };
-
 exports.getPointsbyMapID = getPointsbyMapID;
+
+/**
+ * POST points to the map ID
+ * @param {*} mapid
+ * @returns
+ * A single map from maps
+ */
+const postPointsbyMapID = function(mapid = 1) {
+  const queryString =  `
+  SELECT *
+  FROM points
+  WHERE points.map_id = $1
+ `;
+  return db.query(queryString, [mapid], false);
+};
+exports.postPointsbyMapID = postPointsbyMapID;
+
 /**
  *
  * @param {*} userId

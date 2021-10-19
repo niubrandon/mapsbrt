@@ -1,5 +1,7 @@
 $(() => {
 
+  // const {displayMap} = require('../map.js');
+
   const $mapListings = $(`
   <div class="row row-cols-1 row-cols-md-3 g-4" id="map_section">
       <p>Loading...</p>
@@ -27,5 +29,14 @@ $(() => {
       allMaps(listing);
     }
   }
+
   window.mapListings.ListAllMaps = ListAllMaps;
-})
+
+  $(document).on("click",".btn-primary",
+    function() {
+      // console.log($(this).val());
+      // clearMap();
+      window.$mapObj.displayMap($(this).val());
+    }
+  );
+});

@@ -54,6 +54,23 @@ module.exports = function(router, database) {
       });
   });
 
+  // Post a new point of single map
+  router.post("/:id/points", (req, res) => {
+    console.log('posting point');
+    database.postPointsbyMapID(req.params.id)
+      .then(
+        points => {
+          // console.log('points param',req.params.id);
+          res.send({ points });
+        })
+      .catch(err => {
+        // console.log('single map err?');
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
   //if authenticated user - user created maps
   router.get("/usermaps", (req, res) => {
