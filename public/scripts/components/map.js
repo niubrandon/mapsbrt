@@ -119,36 +119,4 @@ $(() => {
 
   // testing run
   displayMap(testID1);
-  // getPointsbyMapID(testID1)
-  //   .then((json) => {
-  //     for (let elem of json.points) {
-  //       console.log(elem.title, elem.point_lat, elem.point_lng);
-  //     }
-  //   });
-
-  // Promise.all([
-  //   getMapbyID(testID1),
-  //   getPointsbyMapID(testID1)
-  // ]).then(result =>{
-  //   console.log('just',result);
-  // });
-
 });
-
-
-//add marker
-//UI events: click
-//  const elevationService = google.maps.ElevationService();
-// const locations = [{lat: 27.986065, lng:86.922623}];
-// const promise = elevationService.getElevationForLocation({locations});
-
-// promise
-//     .then((response) => {
-//       console.log(response.results);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-//     .finally(() => {
-//       console.log('done');
-//     }); */

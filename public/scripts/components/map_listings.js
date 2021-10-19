@@ -28,9 +28,13 @@ $(() => {
     }
   }
   window.mapListings.ListAllMaps = ListAllMaps;
-  $(".btn btn-primary").click(
+
+  $(document).on("click",".btn-primary",
     function() {
-      console.log(this.value);
-      console.log('clickcincidjsjdf');
-    });
+      console.log($(this).val());
+      displayMap($(this).val());
+      // console.log($(this).text());
+      // console.log('clickcincidjsjdf');
+    }
+  );
 });
