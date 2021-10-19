@@ -1,10 +1,20 @@
 $(document).ready(function() {
 
-  const $registerForm = `<form id="register-form" method="post" action="/api/users/register">
-  <input id="username" name="username" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-  <input name="email" type="email" required class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-  <input name="password" required type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
-  <button class="btn btn-primary" type="submit">Register</button>
+  const $registerForm = `
+  <div class="container">
+    <form id="register-form" method="post" action="/api/users/register" class="form">
+    <div class="form-outline mb-4">
+      <input id="username" name="username" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="email" type="email" required class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="password" required type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+    </div>
+    <button class="btn btn-primary" type="submit">Register</button>
+  </form>
+  </div>
   `;
 
 
@@ -12,14 +22,12 @@ $(document).ready(function() {
   $(document).on("click", "#register", (event)=> {
     console.log("register button clicked");
     event.preventDefault();
-    $("#login").detach();
-    $("#register").detach();
+    $("main").empty();
     //replace with the loginForm
-    $("nav").append($registerForm);
+    $("main").append($registerForm);
 
     //jQuery post for user registration from route /users/register
     $(document).on("submit", "#register-form", function(event) {
-      // console.log("registration button clicked for submition",event);
       event.preventDefault();
       //logoutButton
       const $userName = $("#username").val();
@@ -43,10 +51,9 @@ $(document).ready(function() {
           console.log("user registration error");
           return;
         }
-        $("#register-form").detach();
-        $("nav").append($logOutButton);
-
-
+        header.update(success["user"]);
+        $("main").empty();
+        index.loadIndex();
       });
 
 

@@ -6,15 +6,26 @@ $(document).ready(function() {
   */
   $(document).on("click", "#create-a-map", (event) => {
     event.preventDefault();
+    $("main").empty();
     //create a form
     const creatorId = "admin";
     console.log("the create-a-map tab has been clicked");
     const $createMapForm = `<form id="create-map-form" method="post" action="/api/maps/${creatorId}/addmap">
-    <input name="title" required type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
-    <input name="description" type="text" required class="form-control" placeholder="Description" aria-label="Description" aria-describedby="basic-addon1">
-    <input name="lng" required type="number" class="form-control" placeholder="longitude" aria-label="lng" aria-describedby="basic-addon1">
-    <input name="lat" required type="number" class="form-control" placeholder="latitude" aria-label="lat" aria-describedby="basic-addon1">
-    <input name="zoom" required type="number" class="form-control" placeholder="zoom" aria-label="zoom" min="1" max="25"  aria-describedby="basic-addon1">
+    <div class="form-outline mb-4">
+      <input name="title" required type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="description" type="text" required class="form-control" placeholder="Description" aria-label="Description" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="lng" required type="number" class="form-control" placeholder="longitude" aria-label="lng" aria-describedby="basic-addon1">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="lat" required type="number" class="form-control" placeholder="latitude" aria-label="lat" aria-describedby="basic-addon1" id="lat_value">
+    </div>
+    <div class="form-outline mb-4">
+      <input name="zoom" required type="number" class="form-control" placeholder="zoom" aria-label="zoom" min="1" max="25"  aria-describedby="basic-addon1" id="lng_value">
+    </div>
     <button id="create-map-button" class="btn btn-primary" type="submit">Submit</button>`;
     //detach components if necessary
     $("main").append($createMapForm);
@@ -29,7 +40,10 @@ $(document).ready(function() {
 
       $.post(`/api/maps/${creatorId}/addmap`, serializedData, (success) => {
         console.log("ajax post for create a map works", success);
+        $("main").empty();
+        index.loadIndex();
       });
     });
   });
+
 });
