@@ -1,5 +1,7 @@
 $(() => {
 
+  // const {displayMap} = require('../map.js');
+
   const $mapListings = $(`
   <div class="row row-cols-1 row-cols-md-3 g-4" id="map_section">
       <p>Loading...</p>
@@ -32,6 +34,7 @@ $(() => {
   $(document).on("click",".btn-primary",
     function() {
       console.log($(this).val());
+      clearMap();
       displayMap($(this).val());
       // console.log($(this).text());
       // console.log('clickcincidjsjdf');
