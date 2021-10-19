@@ -45,7 +45,7 @@ $(() => {
         zoom: zoom,
       });
 
-    // Marker image
+    // Marker image it's a flag
     const image = {
       url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
       // This marker is 20 pixels wide by 32 pixels high.
@@ -56,7 +56,7 @@ $(() => {
       anchor: new google.maps.Point(0, 32),
     };
 
-    // Image clickable region
+    // Image clickable region for flag
     const shape = {
       coords: [1, 1, 1, 20, 18, 20, 18, 1],
       type: "poly",
@@ -79,7 +79,6 @@ $(() => {
     }
 
     for (let elem of markerList) {
-
       // Texbox content Generated for each
       const contentString =
       `<div id="content">
@@ -100,7 +99,9 @@ $(() => {
       });
     }
 
-    // Making Map listeners
+
+
+    // Making points for map onclick listeners
     let tempPoints = [];
 
     const addMarker = (array, pos) => {
@@ -108,9 +109,14 @@ $(() => {
         map: map,
         position: pos
       });
-      const pointForm = `
-      <div> the new point forms goes here</div>
+
+      const pointForm = `<form id="points-form" method="post" action="/api/maps/${window.$mapObj.mapid}/points">
+      <div>this is map id ${window.$mapObj.mapid}</div>
+      <input id="point-title" name="point-title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
+      <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
+      <button class="btn btn-primary" type="submit">submit</button>
       `;
+
       const newInfo = new google.maps.InfoWindow({
         content: pointForm,
       });
@@ -123,6 +129,19 @@ $(() => {
           map: map,
           shouldFocus: false,
         });
+        newInfo.preventDefault;
+        // Submitting new form
+        $(document).on(
+          "submit",
+          "#points-form",
+          function(event) {
+            event.preventDefault();
+            console.log('here?');
+            console.log('submitting vals');
+            const serializeData = $("#points-form").serialize();
+            console.log(serializeData);
+          });
+        // console.log(newInfo);
       });
       array.push(currMarker);
     };
@@ -135,6 +154,7 @@ $(() => {
       map,
       "click",
       (event) => {
+        // console.log('map id',window.$mapObj.mapid);
         for (let elem of tempPoints) {
           // Have to use the setmap function
           elem.setMap(null);
@@ -146,6 +166,8 @@ $(() => {
     );
     // console.log(markerList);
   };
+
+
 
   window.$mapObj.initMap = initMap;
 
@@ -169,6 +191,7 @@ $(() => {
   // and prepend a google maps element to the $main tag
   // where the map displayed has id mapID
   const displayMap = (mapID) => {
+    window.$mapObj.mapid = mapID;
     mapPromise
       .then(() => {
         return Promise.all([

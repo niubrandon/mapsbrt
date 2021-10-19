@@ -34,11 +34,9 @@ $(() => {
 
   $(document).on("click",".btn-primary",
     function() {
-      console.log($(this).val());
+      // console.log($(this).val());
       // clearMap();
       window.$mapObj.displayMap($(this).val());
-      // console.log($(this).text());
-      // console.log('clickcincidjsjdf');
     }
   );
 });
