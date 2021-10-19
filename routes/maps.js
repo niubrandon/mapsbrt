@@ -22,6 +22,24 @@ module.exports = function(router, database) {
       });
   });
 
+  //if authenticated user - user created maps
+  router.get("/usermaps", (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.send("Error:User Not Found");
+      return;
+    }
+    database.getAllUserMaps(userId)
+      .then(maps => {
+        res.send({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   // Get single map
   router.get("/:id", (req, res) => {
     database.getMapbyID(req.params.id)
@@ -55,27 +73,9 @@ module.exports = function(router, database) {
   });
 
 
-  //if authenticated user - user created maps
-  router.get("/usermaps", (req, res) => {
-    userId = req.session.userId;
-    if (!userId) {
-      res.error("Not found");
-      return;
-    }
-    database.getAllUserMaps(userId)
-    .then(maps => {
-      res.send({ maps });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-  });
 
 
-
-/*
+  /*
 find user information from username
 user is an object may contain username and password
 */
@@ -121,7 +121,7 @@ user is an object may contain username and password
   });
 
 
-/*
+  /*
 POST on delete a map endpoint
 :id is username from auth user
 :mapId is the map id belong to the auth user
@@ -143,7 +143,7 @@ need map id from ajax post call
 
   });
 
-/*
+  /*
 POST on modify a map endpoint
 :id is username from auth user
 :mapId is the map id belong to the auth user

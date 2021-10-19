@@ -120,9 +120,9 @@ given input with user object when register new user and return a promise with us
   });
 
   router.get("/fav/maps", (req, res) => {
-    userId = req.session.userId;
+    const userId = req.session.userId;
     if (!userId) {
-      res.error("Not found");
+      res.send("Error:User Not found");
       return;
     }
     database.getAllFavMapsOfUser(userId)
@@ -134,6 +134,25 @@ given input with user object when register new user and return a promise with us
           .status(500)
           .json({ error: err.message });
       });
+  });
+
+
+  router.get("/me", (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.send({message: "not logged in"});
+      return;
+    }
+
+    database.getUserWithId(userId)
+      .then(user => {console.log(user, "i am the one");
+        if (!user) {
+          res.send({error: "no user with that id"});
+          return;
+        }
+        res.send(user);
+      })
+      .catch(e => res.send(e));
   });
 
   return router;

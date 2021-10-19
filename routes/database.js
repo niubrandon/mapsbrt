@@ -67,9 +67,9 @@ const getAllUserMaps = function(userId, limit = 3) {
   WHERE creator_id = $1
   LIMIT $2
  `;
- const values = [userId, limit];
- return db.query(queryString, values, false);
-}
+  const values = [userId, limit];
+  return db.query(queryString, values, false);
+};
 exports.getAllUserMaps = getAllUserMaps;
 
 /**
@@ -79,7 +79,7 @@ exports.getAllUserMaps = getAllUserMaps;
  */
 const getUsers = function(limit = 2) {
   return Promise.resolve(users);
-}
+};
 exports.getUsers = getUsers;
 
 
@@ -119,11 +119,11 @@ const getAllFavMapsOfUser = function(userId, limit = 10) {
   JOIN favorites ON maps.id = map_id
   JOIN users ON users.id = user_id
   WHERE user_id = $1
-  LIMIT $2;`
+  LIMIT $2;`;
 
   const values = [userId, limit];
   return db.query(queryString, values, false);
-}
+};
 
 exports.getAllFavMapsOfUser = getAllFavMapsOfUser;
 
@@ -175,3 +175,17 @@ const findUserFromUsernameAndEmail = function(user) {
 };
 
 exports.findUserFromUsernameAndEmail = findUserFromUsernameAndEmail;
+
+/**
+ *
+ * @param {*} id
+ */
+const getUserWithId = function(id) {
+  const user = `SELECT *
+  FROM users
+  WHERE id = $1;`;
+  const value = [id];
+  return db
+    .query(user, value, true);
+};
+exports.getUserWithId = getUserWithId;
