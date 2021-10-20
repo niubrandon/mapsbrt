@@ -32,10 +32,10 @@ $(document).ready(function() {
       const serializeData = $("#login-form").serialize();
       // console.log("serialized data from user login form", serializeData);
       //validate form submitted content
-
+      toastr.remove();
       $.post("/api/users/login", serializeData, (success) => {
         if (success.error === "error") {
-          console.log("wrong credential");
+          toastr.error("Wrong Credential");
           return;
         }
         header.update(success["user"]);
