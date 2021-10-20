@@ -12,24 +12,30 @@ $(() => {
   window.$mapObj = $mapObj;
 
   const clearMap = function() {
-    $('#map').empty();
+    $('#map').remove();
   };
 
   window.$mapObj.clearMap = clearMap;
 
-  $('main').prepend(window.$mapObj);
+  const appendMap = () => {
+    $('main').prepend(window.$mapObj);
+  };
+
+  window.$mapObj.appendMap = appendMap;
 
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
-  const mapPromise = new Promise((resolve, reject) => {
+  const mapPromise = () => new Promise((resolve, reject) => {
     console.log('promiseerror?');
     window.$mapObj.clearMap();
-    // $('main').prepend(mapHtml);
+    window.$mapObj.appendMap();
     setTimeout(() => {
       resolve();
     },100);
   });
 
+
+  window.$mapObj.mapPromise = mapPromise;
 
   // function init Map creates a google map in the #map element
   // with center at (lat,long) and a zoom level of (zoom)
@@ -39,6 +45,7 @@ $(() => {
     zoom,
     points = []) {
     // Make map
+    // console.log('in init maps');
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
@@ -154,6 +161,7 @@ $(() => {
       }
     );
     // console.log(markerList);
+    return;
   };
 
   // newInfo.preventDefault;
@@ -205,7 +213,7 @@ $(() => {
   // where the map displayed has id mapID
   const displayMap = (mapID) => {
     window.$mapObj.mapid = mapID;
-    mapPromise
+    window.$mapObj.mapPromise()
       .then(() => {
         // console.log('in first promise');
         return Promise.all([
