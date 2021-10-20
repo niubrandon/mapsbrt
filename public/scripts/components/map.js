@@ -76,13 +76,13 @@ $(() => {
           lat : elem.point_lat,
           lng : elem.point_lng
         },
-        icon: image,
-        map: map,
+        id: elem.id,
         title: elem.title,
         description: elem.description,
         imageUrl: elem.image_url,
+        icon: image,
+        map: map,
         shape: shape,
-
       }));
     }
 
@@ -92,6 +92,7 @@ $(() => {
       const contentString =
       `<form id="points-form"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
       <div id="content">
+      <div class = pointsid>${elem.id}</div>
       <div class = title>${elem.title}</div>
       <div class = description>${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
