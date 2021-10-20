@@ -22,6 +22,7 @@ $(() => {
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
   const mapPromise = new Promise((resolve, reject) => {
+    console.log('promiseerror?');
     window.$mapObj.clearMap();
     // $('main').prepend(mapHtml);
     setTimeout(() => {
@@ -206,6 +207,7 @@ $(() => {
     window.$mapObj.mapid = mapID;
     mapPromise
       .then(() => {
+        // console.log('in first promise');
         return Promise.all([
           getMapbyID(mapID),
           getPointsbyMapID(mapID)
@@ -219,6 +221,10 @@ $(() => {
         // let points = [];
         // console.log('points', points);
         $mapObj.initMap(lat, lng, zoom, points);
+        return;
+      }).catch((error)=> {
+        console.log('here is err', error);
+        console.log('the error is on line 224')
       });
   };
   window.$mapObj.displayMap = displayMap;

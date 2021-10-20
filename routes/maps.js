@@ -6,7 +6,7 @@
  */
 
 
-
+// 43.021625, -81.434419
 
 module.exports = function(router, database) {
 
@@ -45,11 +45,11 @@ module.exports = function(router, database) {
     database.getMapbyID(req.params.id)
       .then(
         maps => {
-          // console.log('req params',req.params.id);
+          console.log('req params',req.params.id);
           res.send({ maps });
         })
       .catch(err => {
-        // console.log('single map err?');
+        console.log('single map err?');
         res
           .status(500)
           .json({ error: err.message });
