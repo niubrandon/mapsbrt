@@ -35,7 +35,7 @@ $(() => {
 
   $(document).on("click",".btn-primary",
     function() {
-      // console.log($(this).val());
+      // console.log("this .val",$(this).val());
       // clearMap();
       window.$mapObj.displayMap($(this).val());
     }

@@ -12,23 +12,30 @@ $(() => {
   window.$mapObj = $mapObj;
 
   const clearMap = function() {
-    $('#map').empty();
+    $('#map').remove();
   };
 
   window.$mapObj.clearMap = clearMap;
 
-  $('main').prepend(window.$mapObj);
+  const appendMap = () => {
+    $('main').prepend(window.$mapObj);
+  };
+
+  window.$mapObj.appendMap = appendMap;
 
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
-  const mapPromise = new Promise((resolve, reject) => {
+  const mapPromise = () => new Promise((resolve, reject) => {
+    console.log('promiseerror?');
     window.$mapObj.clearMap();
-    // $('main').prepend(mapHtml);
+    window.$mapObj.appendMap();
     setTimeout(() => {
       resolve();
     },100);
   });
 
+
+  window.$mapObj.mapPromise = mapPromise;
 
   // function init Map creates a google map in the #map element
   // with center at (lat,long) and a zoom level of (zoom)
@@ -38,6 +45,7 @@ $(() => {
     zoom,
     points = []) {
     // Make map
+    // console.log('in init maps');
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
@@ -99,8 +107,6 @@ $(() => {
       });
     }
 
-
-
     // Making points for map onclick listeners
     let tempPoints = [];
 
@@ -110,11 +116,11 @@ $(() => {
         position: pos
       });
 
-      const pointForm = `<form id="points-form" method="post" action="/api/maps/${window.$mapObj.mapid}/points">
+      const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>this is map id ${window.$mapObj.mapid}</div>
-      <input id="point-title" name="point-title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
+      <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
-      <button class="btn btn-primary" type="submit">submit</button>
+      <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
 
       const newInfo = new google.maps.InfoWindow({
@@ -129,22 +135,12 @@ $(() => {
           map: map,
           shouldFocus: false,
         });
-        newInfo.preventDefault;
-        // Submitting new form
-        $(document).on(
-          "submit",
-          "#points-form",
-          function(event) {
-            event.preventDefault();
-            console.log('here?');
-            console.log('submitting vals');
-            const serializeData = $("#points-form").serialize();
-            console.log(serializeData);
-          });
+
         // console.log(newInfo);
       });
       array.push(currMarker);
     };
+
 
     window.tempPoints = tempPoints;
 
@@ -165,9 +161,34 @@ $(() => {
       }
     );
     // console.log(markerList);
+    return;
   };
 
-
+  // newInfo.preventDefault;
+  // Submitting new form
+  $(document).on(
+    "submit",
+    "#points-form",
+    function(event) {
+      const currMapID = document.querySelector("#points-form > button").value;
+      // console.log('currMapID',currMapID);
+      event.preventDefault();
+      const serializeData = $("#points-form").serialize();
+      const $title = $("#point-title").val();
+      const $description = $("#point-title").val();
+      // console.log($("#points-form").val());
+      // console.log(serializeData);
+      // console.log("where's map id", window.$mapObj.mapid);
+      // return $.ajax({
+      //   url: `/api/maps/${id}/points`,
+      // });
+      $.post(`/api/maps/${currMapID}/points`,
+        serializeData, (success) => {
+          // console.log('actually posted');
+          console.log(success);
+        });
+      // window.$mapObj.displayMap(window.$mapObj.mapid);
+    });
 
   window.$mapObj.initMap = initMap;
 
@@ -192,8 +213,9 @@ $(() => {
   // where the map displayed has id mapID
   const displayMap = (mapID) => {
     window.$mapObj.mapid = mapID;
-    mapPromise
+    window.$mapObj.mapPromise()
       .then(() => {
+        // console.log('in first promise');
         return Promise.all([
           getMapbyID(mapID),
           getPointsbyMapID(mapID)
@@ -207,13 +229,17 @@ $(() => {
         // let points = [];
         // console.log('points', points);
         $mapObj.initMap(lat, lng, zoom, points);
+        return;
+      }).catch((error)=> {
+        console.log('here is err', error);
+        console.log('the error is on line 224')
       });
   };
   window.$mapObj.displayMap = displayMap;
-  const testID1 = 1;
+  // const testID1 = 1;
   // testing run
 
-  window.$mapObj.displayMap(testID1);
+  // window.$mapObj.displayMap(testID1);
 
 });
 
