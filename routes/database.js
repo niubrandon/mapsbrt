@@ -11,7 +11,7 @@ const db = require('../db/index');
  * @returns
  * to get all the maps
  */
-const getAllMaps = function(userId, limit = 10) {
+const getAllMaps = function(userId, limit = 15) {
   const queryString =  `
   SELECT *,  CASE WHEN maps.id IN
   (SELECT map_id FROM favorites WHERE user_id = $1)
