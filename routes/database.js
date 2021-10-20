@@ -87,6 +87,7 @@ const postPointsbyMapID = function(
     creator_id
   )
   VALUES ($1, $2, $3, $4, $5, $6, $7)
+  RETURNING *
  `;
   return db.query(queryString, [
     mapid,

@@ -121,8 +121,7 @@ $(() => {
         map: map,
         position: pos
       });
-      console.log('pos to json',pos.toJSON());
-      // console.log(currMarker.position);
+      // console.log('pos to json',pos.toJSON());
       // Form for new point
       const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
@@ -165,7 +164,7 @@ $(() => {
           elem.setMap(null);
         }
         tempPoints = [];
-        console.log('eventlatlong', event.latLng);
+        // console.log('eventlatlong', event.latLng);
         addMarker(tempPoints, event.latLng);
       }
     );
