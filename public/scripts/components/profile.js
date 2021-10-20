@@ -10,8 +10,8 @@ $(() => {
 </ul>
 <br>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="my_maps_list" role="tabpanel"></div>
-  <div class="tab-pane fade" id="my_fav_list" role="tabpanel"></div>
+  <div class="tab-pane fade show active" id="my_maps_list" data-origin="Mymaps" role="tabpanel"></div>
+  <div class="tab-pane fade" id="my_fav_list" role="tabpanel" data-origin="favMapList"></div>
 </div>
 
   `);
@@ -32,7 +32,7 @@ $(() => {
 function getListOfUserMaps(div) {
   getAllUserMaps()
     .then(function( json ) {
-      mapListings.ListAllMaps(json.maps, false, true);
+      mapListings.ListAllMaps(json.maps, true);
       $mapListings.appendTo(div);
     })
     .catch(error => error);
@@ -41,7 +41,7 @@ function getListOfUserMaps(div) {
 function getListOfFavouriteMaps(div) {
   getAllFavMaps()
   .then(function( json ) {
-    mapListings.ListAllMaps(json.maps, true, true);
+    mapListings.ListAllMaps(json.maps, true);
     $mapListings.appendTo(div);
   })
   .catch(error => error);

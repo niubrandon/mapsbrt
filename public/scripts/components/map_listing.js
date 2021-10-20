@@ -1,7 +1,7 @@
 $(() => {
   window.mapListing = {};
 
-  function ListMap(maps, isFav, user) {
+  function ListMap(maps, user) {
     // console.log(isFav);
     return `
     <div class="col">
@@ -13,8 +13,8 @@ $(() => {
           alt="..."
           />
           ${user ?
-          `${isFav ?
-           `<i class="fas fa-heart fa-2x fav_button"  title="Remove  Fav" value="0"></i>` : `<i class="far fa-heart fa-2x fav_button"  title="Add to Fav" value="1"></i>`}` : ``}
+          `${maps.fav ?
+           `<i class="fas fa-heart fa-2x fav_button"  title="Remove  Fav" value="0" data-mapId="${maps.id}"></i>` : `<i class="far fa-heart fa-2x fav_button"  title="Add to Fav" value="1" data-mapId="${maps.id}"></i>`}` : ``}
         </div>
         <div class="card-body">
           <h5 class="card-title">${maps.title}</h5>
@@ -23,7 +23,7 @@ $(() => {
           </p>
         </div>
         ${user ? `<button class="btn btn-primary" value = "${maps.id}" >Details</button>` :
-        `<button class="btn btn-primary" value = "${maps.id}" disabled >Details</button>` }
+        `<button class="btn btn-primary disabled" value = "${maps.id}" disabled >Details</button>` }
       </div>
     </div>`
   }

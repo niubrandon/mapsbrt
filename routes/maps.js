@@ -11,7 +11,8 @@
 module.exports = function(router, database) {
 
   router.get("/", (req, res) => {
-    database.getAllMaps()
+    const userId = req.session.userId;
+    database.getAllMaps(userId)
       .then(maps => {
         res.send({ maps });
       })

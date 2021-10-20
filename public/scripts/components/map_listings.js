@@ -22,11 +22,11 @@ $(() => {
   window.mapListings.clearListings = clearListings;
 
 
-  function ListAllMaps(Maps, isFav, user) {
+  function ListAllMaps(Maps, user) {
     clearListings();
     for (const mapId in Maps) {
       const map = Maps[mapId];
-      const listing = mapListing.ListMap(map, isFav, user);
+      const listing = mapListing.ListMap(map, user);
       allMaps(listing);
     }
   }
@@ -41,7 +41,40 @@ $(() => {
     }
   );
 
+  function reload() {
+    if ($("#map_section").parent().is("main")) {
+      index.loadIndex(true);
+    } else {
+      let origin = $("#map_section").parent().attr('data-origin');
+      $('#'+origin).click();
+    }
+  }
+
+
+
   $(document).on("click", ".fav_button", function() {
-    console.log(this.value);
+    let value = $(this).attr("value");
+    let mapId = $(this).attr("data-mapId");
+    if (value === "1") {
+      addTofav(mapId)
+        .then(result => {
+        toastr.remove();
+        toastr.success('Successfully added into fav');
+        reload();
+      })
+      .catch(error => {
+        toastr.error("Something Happened!");
+      })
+    } else {
+      removeFromFav(mapId)
+        .then(result => {
+          toastr.remove();
+          toastr.success('Removed From Favorites');
+          reload();
+        })
+        .catch(error => {
+          toastr.error("Something Happened!");
+        })
+    }
   })
 });

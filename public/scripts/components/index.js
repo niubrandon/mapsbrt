@@ -6,12 +6,10 @@ function loadIndex(user) {
   const $main = $("main");
   getAllMaps()
   .then(function( json ) {
-    mapListings.ListAllMaps(json.maps, false, user);
+    mapListings.ListAllMaps(json.maps, user);
     $mapListings.appendTo($main);
   });
 }
-
-loadIndex(null);
 
 window.index.loadIndex = loadIndex;
 

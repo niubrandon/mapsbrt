@@ -9,24 +9,23 @@ $(document).ready(function() {
     event.preventDefault();
     $("main").empty();
     //create a form
-    const creatorId = "admin";
-
+    const creatorId = $("#logged-userId").attr("value");
     console.log("the create-a-map tab has been clicked");
     const $createMapForm = `<form id="create-map-form" method="post" action="/api/maps/${creatorId}/addmap">
     <div class="form-outline mb-4">
-      <input name="title" required type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+      <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1" required>
     </div>
     <div class="form-outline mb-4">
       <input name="description" type="text" required class="form-control" placeholder="Description" aria-label="Description" aria-describedby="basic-addon1">
     </div>
     <div class="form-outline mb-4">
-      <input name="lng" required type="number" class="form-control" placeholder="longitude" aria-label="lng" aria-describedby="basic-addon1">
+      <input name="lng" required type="number" class="form-control" placeholder="longitude" aria-label="lng" aria-describedby="basic-addon1" id="lng_value">
     </div>
     <div class="form-outline mb-4">
       <input name="lat" required type="number" class="form-control" placeholder="latitude" aria-label="lat" aria-describedby="basic-addon1" id="lat_value">
     </div>
     <div class="form-outline mb-4">
-      <input name="zoom" required type="number" class="form-control" placeholder="zoom" aria-label="zoom" min="1" max="25"  aria-describedby="basic-addon1" id="lng_value">
+      <input name="zoom" required type="number" class="form-control" placeholder="zoom" aria-label="zoom" min="1" max="25"  aria-describedby="basic-addon1">
     </div>
     <button id="create-map-button" class="btn btn-primary" type="submit">Submit</button>
     </form>`;
@@ -38,7 +37,6 @@ $(document).ready(function() {
       console.log("submit for creating a new map");
       console.log("getting cookie", document.cookie);
       event.preventDefault();
-
       const serializedData = $("#create-map-form").serialize();
       console.log("serialized data from submit a new map", serializedData);
 
@@ -49,5 +47,4 @@ $(document).ready(function() {
       });
     });
   });
-
 });

@@ -37,7 +37,7 @@ $(document).ready(function() {
         if (success.error === "error") {
           console.log("wrong credential");
           return;
-        }
+        }console.log(success["user"]);
         header.update(success["user"]);
         $("main").empty();
         index.loadIndex(success["user"]);
