@@ -16,3 +16,9 @@ function getAllFavMaps () {
     url: "/api/users/fav/maps",
   });
 }
+
+function getMyDetails() {
+  return $.ajax({
+    url: "api/users/me",
+  });
+}
