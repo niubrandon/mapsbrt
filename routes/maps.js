@@ -90,6 +90,24 @@ module.exports = function(router, database) {
   });
 
 
+  //if authenticated user - user created maps
+  router.get("/usermaps", (req, res) => {
+    userId = req.session.userId;
+    if (!userId) {
+      res.error("Not found");
+      return;
+    }
+    database.getAllUserMaps(userId)
+      .then(maps => {
+        res.send({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
 
 
   /*
