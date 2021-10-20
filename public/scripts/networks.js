@@ -36,3 +36,10 @@ function removeFromFav(mapId) {
     url: `api/users/fav/${mapId}/remove`,
   });
 }
+
+function deleteMap(userId, mapId) {
+  return $.ajax({
+    method: "POST",
+    url: `api/maps/${userId}/deletemap/${mapId}`,
+  })
+}
