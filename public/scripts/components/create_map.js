@@ -3,6 +3,7 @@ $(document).ready(function() {
 
   /*
   create a map form integration when click create a map tab fro nav
+  !!!need to replace the hardcoded creatorId
   */
   $(document).on("click", "#create-a-map", (event) => {
     event.preventDefault();
@@ -41,7 +42,7 @@ $(document).ready(function() {
       $.post(`/api/maps/${creatorId}/addmap`, serializedData, (success) => {
         console.log("ajax post for create a map works", success);
         $("main").empty();
-        index.loadIndex();
+        index.loadIndex(true);
       });
     });
   });

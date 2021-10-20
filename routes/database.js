@@ -152,7 +152,6 @@ exports.getAllFavMapsOfUser = getAllFavMapsOfUser;
 
 /*
 Add a map from auth user
-hardcoded for 13 as admin
 */
 
 const addMapFromAuthUser = function(data, userId) {
