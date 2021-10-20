@@ -83,9 +83,9 @@ const getAllUserMaps = function(userId, limit = 3) {
   WHERE creator_id = $1
   LIMIT $2
  `;
- const values = [userId, limit];
- return db.query(queryString, values, false);
-}
+  const values = [userId, limit];
+  return db.query(queryString, values, false);
+};
 exports.getAllUserMaps = getAllUserMaps;
 
 /**
@@ -95,7 +95,7 @@ exports.getAllUserMaps = getAllUserMaps;
  */
 const getUsers = function(limit = 2) {
   return Promise.resolve(users);
-}
+};
 exports.getUsers = getUsers;
 
 
@@ -135,11 +135,11 @@ const getAllFavMapsOfUser = function(userId, limit = 10) {
   JOIN favorites ON maps.id = map_id
   JOIN users ON users.id = user_id
   WHERE user_id = $1
-  LIMIT $2;`
+  LIMIT $2;`;
 
   const values = [userId, limit];
   return db.query(queryString, values, false);
-}
+};
 
 exports.getAllFavMapsOfUser = getAllFavMapsOfUser;
 
@@ -160,3 +160,48 @@ const addMapFromAuthUser = function(data, userId) {
 };
 
 exports.addMapFromAuthUser = addMapFromAuthUser;
+
+
+/*
+Delete a map from auth user
+*/
+const deleteMapFromAuthUser = function(mapId) {
+  const queryString = `
+  DELETE FROM maps
+  WHERE id = $1;
+  RETURNING *;
+  `;
+  return db.query(queryString, [mapId], true);
+};
+
+exports.deleteMapFromAuthUser = deleteMapFromAuthUser;
+
+/*
+findUserFromUsernameAndEmail for pre-registration check
+input with user object from post ajax form submittion
+*/
+
+const findUserFromUsernameAndEmail = function(user) {
+  const {username, email} = user;
+  const queryString = `
+  SELECT * FROM users
+  WHERE name = $1 OR email = $2 LIMIT 1;`;
+  return db.query(queryString, [username, email], true);
+
+};
+
+exports.findUserFromUsernameAndEmail = findUserFromUsernameAndEmail;
+
+/**
+ *
+ * @param {*} id
+ */
+const getUserWithId = function(id) {
+  const user = `SELECT *
+  FROM users
+  WHERE id = $1;`;
+  const value = [id];
+  return db
+    .query(user, value, true);
+};
+exports.getUserWithId = getUserWithId;

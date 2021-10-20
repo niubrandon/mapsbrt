@@ -22,6 +22,24 @@ module.exports = function(router, database) {
       });
   });
 
+  //if authenticated user - user created maps
+  router.get("/usermaps", (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.send("Error:User Not Found");
+      return;
+    }
+    database.getAllUserMaps(userId)
+      .then(maps => {
+        res.send({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   // Get single map
   router.get("/:id", (req, res) => {
     database.getMapbyID(req.params.id)
@@ -72,27 +90,9 @@ module.exports = function(router, database) {
   });
 
 
-  //if authenticated user - user created maps
-  router.get("/usermaps", (req, res) => {
-    userId = req.session.userId;
-    if (!userId) {
-      res.error("Not found");
-      return;
-    }
-    database.getAllUserMaps(userId)
-    .then(maps => {
-      res.send({ maps });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
-  });
 
 
-
-/*
+  /*
 find user information from username
 user is an object may contain username and password
 */
@@ -138,5 +138,39 @@ user is an object may contain username and password
   });
 
 
+  /*
+POST on delete a map endpoint
+:id is username from auth user
+:mapId is the map id belong to the auth user
+need map id from ajax post call
+*/
+
+  router.post("/:id/deletemap/:mapid", (req, res) => {
+    //check cookie first
+    const mapId = req.params.mapId;
+    const userName = req.session.userName;
+    console.log("ajax post data is deleting a map is", req.body);
+    database.deleteMapFromAuthUser(mapId).then(data => {
+      if (data) {
+        res.status(201).send({data});
+      }
+    }).catch(err => {
+      res.send({error: "error on delete map post request"});
+    });
+
+  });
+
+  /*
+POST on modify a map endpoint
+:id is username from auth user
+:mapId is the map id belong to the auth user
+need map id from ajax post call
+need to submit all the changes
+*/
+
+
+
+
   return router;
 };
+

@@ -48,24 +48,51 @@ module.exports = function(router, database) {
   exports.login = login;
 
 
+/*
+register helper function
+given input with user object when register new user and return a promise with user information
+*/
+  const register = function(user) {
+    return database.findUserFromUsernameAndEmail(user).then(data => {
+      if (data) {
+        return data;
+      } else {
+        return null;
+      }
+    });
+  };
+
+  exports.register = register;
+
   /*
   user registration route
-  --fix edge case later if username and email is already in the database
+  -check if username or email is in system. if not proceed registration process
   */
   router.post('/register', (req, res) => {
-    const user = req.body;
-    user.password = bcrypt.hashSync(req.body.password, salt);
-    database.addUser(user)
-      .then(data => {
-        if (!data) {
-          res.send({error: "error"});
-          return;
-        }
-        req.session.userName = data.username;
-        res.send({user:{name: data.name, email: data.email, password: data.password}});
 
-      })
-      .catch(e => res.send(e));
+    const user = req.body;
+    register(user).then((data) => {
+
+      if (!data) {
+        user.password = bcrypt.hashSync(req.body.password, salt);
+        database.addUser(user)
+          .then(data => {
+            if (!data) {
+              res.send({error: "error from addUser query at server side"});
+              return;
+            }
+            console.log("added user into database", data, data.id);
+            req.session.userId = data.id;
+            req.session.userName = data.username;
+
+            res.send({user:{name: data.name, email: data.email, password: data.password}});
+
+          })
+          .catch(e => res.send(e));
+      } else {
+        res.status(401).send({error: "username or email already exists, please register with a different username or email"});
+      }
+    });
   });
 
 
@@ -93,9 +120,9 @@ module.exports = function(router, database) {
   });
 
   router.get("/fav/maps", (req, res) => {
-    userId = req.session.userId;
+    const userId = req.session.userId;
     if (!userId) {
-      res.error("Not found");
+      res.send("Error:User Not found");
       return;
     }
     database.getAllFavMapsOfUser(userId)
@@ -107,6 +134,25 @@ module.exports = function(router, database) {
           .status(500)
           .json({ error: err.message });
       });
+  });
+
+
+  router.get("/me", (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.send({message: "not logged in"});
+      return;
+    }
+
+    database.getUserWithId(userId)
+      .then(user => {console.log(user, "i am the one");
+        if (!user) {
+          res.send({error: "no user with that id"});
+          return;
+        }
+        res.send(user);
+      })
+      .catch(e => res.send(e));
   });
 
   return router;
