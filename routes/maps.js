@@ -11,7 +11,8 @@
 module.exports = function(router, database) {
 
   router.get("/", (req, res) => {
-    database.getAllMaps()
+    const userId = req.session.userId;
+    database.getAllMaps(userId)
       .then(maps => {
         res.send({ maps });
       })
@@ -155,7 +156,7 @@ need map id from ajax post call
   router.post("/:userid/deletemap/:id", (req, res) => {
     //check cookie first
     const mapId = req.params.id;
-    const userName = req.session.userName;
+    const userName = req.session.userid;
     console.log("ajax post data is deleting a map is", req.body);
     database.deleteMapFromAuthUser(mapId).then(data => {
       if (data) {

@@ -13,7 +13,7 @@ $(document).ready(function() {
       if (!user) {
         userLinks = `
         <div class="container-fluid" id="nav-items-div">
-          <a class="navbar-brand" href="" id="home">
+          <a class="navbar-brand">
             <img src="./images/map_logo.png" alt="" width="50" height="50" class="d-inline-block">
             Maps
           </a>
@@ -24,7 +24,7 @@ $(document).ready(function() {
         </div>`
       } else {
         userLinks = `<div class="container-fluid" id="nav-items-div">
-        <a class="navbar-brand" href="" id="home">
+        <a class="navbar-brand home" href="">
           <img src="./images/map_logo.png" alt="" width="50" height="50" class="d-inline-block">
           Maps
         </a>
@@ -42,7 +42,7 @@ $(document).ready(function() {
           </ul>
         </div>
         <ul class="nav navbar-nav navbar-right navbar-dark bg-dark">
-          <li>${user.name}</li>
+          <li id="logged-userId" value="${user.id}">${user.name}</li>
           <li></li>
         </ul>
 
@@ -62,6 +62,7 @@ $(document).ready(function() {
   getMyDetails()
     .then(function( json ) {
       updateHeader(json.user);
+      index.loadIndex(json.user);
     });
 
   //logout
@@ -100,14 +101,10 @@ $(document).ready(function() {
     profileList.getListOfFavouriteMaps($($(this).attr("href")));
   });
 
-  $(document).on('click', "#home", (event) => {
+  $(document).on('click', ".home", (event) => {
     event.preventDefault();
     $main.empty();
-    getAllMaps()
-      .then(function( json ) {
-      mapListings.ListAllMaps(json.maps);
-      $mapListings.appendTo($main);
-    });
+    index.loadIndex(true);
   })
 
 });

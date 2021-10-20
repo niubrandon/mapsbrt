@@ -11,13 +11,15 @@ const db = require('../db/index');
  * @returns
  * to get all the maps
  */
-const getAllMaps = function(limit = 10) {
+const getAllMaps = function(userId, limit = 15) {
   const queryString =  `
-  SELECT *
+  SELECT *,  CASE WHEN maps.id IN
+  (SELECT map_id FROM favorites WHERE user_id = $1)
+  then true ELSE false END as fav
   FROM maps
-  LIMIT $1
+  limit $2;
  `;
-  return db.query(queryString, [limit], false);
+  return db.query(queryString, [userId, limit], false);
 };
 exports.getAllMaps = getAllMaps;
 
@@ -108,7 +110,10 @@ exports.postPointsbyMapID = postPointsbyMapID;
  */
 const getAllUserMaps = function(userId, limit = 3) {
   const queryString =  `
-  SELECT *
+  SELECT *,
+  CASE WHEN maps.id IN
+  (SELECT map_id FROM favorites WHERE user_id = $1)
+  then true ELSE false END as fav
   FROM maps
   WHERE creator_id = $1
   LIMIT $2
@@ -161,7 +166,7 @@ exports.findUserFromUsername = findUserFromUsername;
  */
 const getAllFavMapsOfUser = function(userId, limit = 10) {
   const queryString = `
-  SELECT * FROM maps
+  SELECT maps.id as id, maps.* FROM maps
   JOIN favorites ON maps.id = map_id
   JOIN users ON users.id = user_id
   WHERE user_id = $1
@@ -234,3 +239,36 @@ const getUserWithId = function(id) {
     .query(user, value, true);
 };
 exports.getUserWithId = getUserWithId;
+
+/**
+ *
+ * @param {*} userId
+ * @param {*} mapId
+ * @returns
+ */
+const addToFav = function(userId, mapId) {
+  const queryString = `
+  INSERT INTO favorites(user_id, map_id)
+  VALUES($1, $2)
+  RETURNING *`;
+  const values = [userId, mapId];
+  return db.query(queryString, values, true);
+}
+exports.addToFav = addToFav;
+
+/**
+ *Remove map from fav
+ * @param {*} userId
+ * @param {*} mapId
+ * @returns
+ */
+const removeFromFav = function(userId, mapId) {
+  const queryString = `
+  DELETE FROM favorites
+  WHERE user_id = $1
+  AND map_id = $2
+  RETURNING *`;
+  const values = [userId, mapId];
+  return db.query(queryString, values, true);
+}
+exports.removeFromFav = removeFromFav;

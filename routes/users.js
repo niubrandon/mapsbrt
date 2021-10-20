@@ -88,7 +88,7 @@ given input with user object when register new user and return a promise with us
             req.session.userId = data.id;
             req.session.userName = data.username;
 
-            res.send({user:{name: data.name, email: data.email, password: data.password}});
+            res.send({user:{name: data.name, email: data.email, password: data.password, id : data.id}});
 
           })
           .catch(e => res.send(e));
@@ -112,7 +112,7 @@ given input with user object when register new user and return a promise with us
       }
       req.session.userName = data.name;
       req.session.userId = data.id;
-      res.send({user: {name: data.name, email: data.email, password: data.password}});
+      res.send({user: {name: data.name, email: data.email, password: data.password, id : data.id}});
     })
       .catch(e => res.send(e));
   });
@@ -129,8 +129,9 @@ given input with user object when register new user and return a promise with us
       return;
     }
     database.getAllFavMapsOfUser(userId)
-      .then(maps => {
-        res.send({ maps });
+      .then(result => {
+        let maps = result.map(v => ({...v, fav: true}))
+        res.send({maps});
       })
       .catch(err => {
         res
@@ -150,15 +151,42 @@ is this route obsolete?
     }
 
     database.getUserWithId(userId)
-      .then(user => {console.log(user, "i am the one");
+      .then(user => {
         if (!user) {
           res.send({error: "no user with that id"});
           return;
         }
-        res.send(user);
+        res.send({user});
       })
       .catch(e => res.send(e));
   });
+
+  //to add the map into the favorites
+  router.post("/fav/:mapid/add", (req, res) => {
+    const userId = req.session.userId;
+    const mapId = req.params.mapid;
+    database.addToFav(userId, mapId)
+        .then(fav => {
+          res.send(true);
+        })
+        .catch(err => {
+          res.send(err.message);
+        })
+  })
+
+  //to remove it from fav
+  router.post("/fav/:mapid/remove", (req, res) => {
+    const userId = req.session.userId;
+    const mapId = req.params.mapid;
+    database.removeFromFav(userId, mapId)
+        .then(fav => {
+          res.send(true);
+        })
+        .catch(err => {
+          res.send(err.message);
+        })
+  })
+
 
   return router;
 };
