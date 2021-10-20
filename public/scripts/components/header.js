@@ -66,11 +66,11 @@ $(document).ready(function() {
 
   //logout
   $(document).on("click", "#logout-button", (event) => {
-    console.log("logoutbutton clicked");
+    // console.log("logoutbutton clicked");
     const serializeData = $(this).serialize();
 
     $.post("/api/users/logout", serializeData, (success) => {
-      console.log("response from server", success);
+      // console.log("response from server", success);
       updateHeader(null);
       $("main").empty();
       index.loadIndex(null);

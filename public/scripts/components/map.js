@@ -121,15 +121,16 @@ $(() => {
         map: map,
         position: pos
       });
-
+      console.log('pos to json',pos.toJSON());
+      // console.log(currMarker.position);
       // Form for new point
       const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
       <input name="imageUrl" type="text" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
-      <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
-      <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+      <input name="lng" type="float" required class="form-control" value="${pos.toJSON().lng}" aria-label="image" aria-describedby="basic-addon1">
+      <input name="lat" type="float" required class="form-control" value="${pos.toJSON().lat}" aria-label="image" aria-describedby="basic-addon1">
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
       const newInfo = new google.maps.InfoWindow({
@@ -164,6 +165,7 @@ $(() => {
           elem.setMap(null);
         }
         tempPoints = [];
+        console.log('eventlatlong', event.latLng);
         addMarker(tempPoints, event.latLng);
       }
     );
