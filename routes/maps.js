@@ -161,37 +161,6 @@ need map id from ajax post call
   });
 
   /*
-POST on modify a map endpoint
-:id is username from auth user
-:mapId is the map id belong to the auth user
-need map id from ajax post call
-need to submit all the changes
-*/
-
-
-
-
-
-  /*
-find user information from username
-user is an object may contain username and password
-*/
-  const userInformation = function(user) {
-    return database.findUserFromUsername(user).then(data => {
-      console.log("finding user from finduser query", data.id);
-      if (data) {
-        return data.id;
-      } else {
-        return null;
-      }
-    });
-  };
-
-  exports.userInformation = userInformation;
-
-
-
-  /*
   POST on create a map endpoint
   :id is username from loggedin user
   check cookie const userName = req.session.userName;
