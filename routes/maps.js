@@ -112,12 +112,11 @@ user is an object may contain username and password
 
   /*
   POST on create a map endpoint
-  :id is username from loggedin user
   check cookie const userName = req.session.userName;
   find userId from username nested promise
   */
 
-  router.post("/:id/addmap", (req, res) => {
+  router.post("/:userid/addmap", (req, res) => {
     //check cookie first
     console.log("!!!!!post ajax call for addmap", req.body, req.params, req.session.userName);
     const userName = req.session.userName;
@@ -139,14 +138,13 @@ user is an object may contain username and password
 
   /*
 POST on delete a map endpoint
-:id is username from auth user
-:mapId is the map id belong to the auth user
+:id is the map id belong to the auth user
 need map id from ajax post call
 */
 
-  router.post("/:id/deletemap/:mapid", (req, res) => {
+  router.post("/:userid/deletemap/:id", (req, res) => {
     //check cookie first
-    const mapId = req.params.mapId;
+    const mapId = req.params.id;
     const userName = req.session.userName;
     console.log("ajax post data is deleting a map is", req.body);
     database.deleteMapFromAuthUser(mapId).then(data => {

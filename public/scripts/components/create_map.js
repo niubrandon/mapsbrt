@@ -10,6 +10,7 @@ $(document).ready(function() {
     $("main").empty();
     //create a form
     const creatorId = "admin";
+
     console.log("the create-a-map tab has been clicked");
     const $createMapForm = `<form id="create-map-form" method="post" action="/api/maps/${creatorId}/addmap">
     <div class="form-outline mb-4">
@@ -27,13 +28,15 @@ $(document).ready(function() {
     <div class="form-outline mb-4">
       <input name="zoom" required type="number" class="form-control" placeholder="zoom" aria-label="zoom" min="1" max="25"  aria-describedby="basic-addon1" id="lng_value">
     </div>
-    <button id="create-map-button" class="btn btn-primary" type="submit">Submit</button>`;
+    <button id="create-map-button" class="btn btn-primary" type="submit">Submit</button>
+    </form>`;
     //detach components if necessary
     $("main").append($createMapForm);
     //on submit event for post
 
     $(document).on("click", "#create-map-button", (event) => {
       console.log("submit for creating a new map");
+      console.log("getting cookie", document.cookie);
       event.preventDefault();
 
       const serializedData = $("#create-map-form").serialize();

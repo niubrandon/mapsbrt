@@ -10,6 +10,9 @@ const salt = bcrypt.genSaltSync(10);
 
 
 module.exports = function(router, database) {
+
+//obsolete
+/*
   router.get("/", (req, res) => {
     database.getUsers()
       .then(users => {
@@ -21,7 +24,7 @@ module.exports = function(router, database) {
           .json({ error: err.message });
       });
   });
-
+ */
 
 
 
@@ -136,7 +139,9 @@ given input with user object when register new user and return a promise with us
       });
   });
 
-
+/*
+is this route obsolete?
+*/
   router.get("/me", (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
