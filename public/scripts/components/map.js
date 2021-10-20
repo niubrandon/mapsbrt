@@ -91,9 +91,9 @@ $(() => {
     for (let elem of markerList) {
       const contentString =
       `<div id="content">
-      ${elem.title}
-      ${elem.description}
-      ${elem.imageUrl}
+      <div class = title>${elem.title}</div>
+      <div class = description>${elem.description}</div>
+      <div class = imageUrl>${elem.imageUrl}</div>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
