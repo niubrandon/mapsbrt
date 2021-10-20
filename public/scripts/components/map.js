@@ -90,10 +90,12 @@ $(() => {
     // Texbox content Generated for each point in database
     for (let elem of markerList) {
       const contentString =
-      `<div id="content">
+      `<form id="points-form"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
+      <div id="content">
       <div class = title>${elem.title}</div>
       <div class = description>${elem.description}</div>
-      <div class = imageUrl>${elem.imageUrl}</div>
+      <img class = imageUrl src = ${elem.imageUrl}></div>
+      <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">UPDATE</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
