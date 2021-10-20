@@ -110,7 +110,7 @@ $(() => {
 
       const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>this is map id ${window.$mapObj.mapid}</div>
-      <input id="point-title"  name="point-title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
+      <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
@@ -162,7 +162,7 @@ $(() => {
     "#points-form",
     function(event) {
       const currMapID = document.querySelector("#points-form > button").value;
-      console.log('currMapID',currMapID);
+      // console.log('currMapID',currMapID);
       event.preventDefault();
       const serializeData = $("#points-form").serialize();
       const $title = $("#point-title").val();
@@ -170,11 +170,15 @@ $(() => {
       // console.log($("#points-form").val());
       // console.log(serializeData);
       // console.log("where's map id", window.$mapObj.mapid);
-      $.post(`/api/maps/${currMapID}/points`, serializeData, (success) => {
-        // console.log('actually posted');
-      });
-
-      window.$mapObj.displayMap(window.$mapObj.mapid);
+      // return $.ajax({
+      //   url: `/api/maps/${id}/points`,
+      // });
+      $.post(`/api/maps/${currMapID}/points`,
+        serializeData, (success) => {
+          // console.log('actually posted');
+          console.log(success);
+        });
+      // window.$mapObj.displayMap(window.$mapObj.mapid);
     });
 
   window.$mapObj.initMap = initMap;
