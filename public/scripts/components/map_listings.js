@@ -40,4 +40,8 @@ $(() => {
       window.$mapObj.displayMap($(this).val());
     }
   );
+
+  $(document).on("click", ".fav_button", function() {
+    console.log(this.value);
+  })
 });

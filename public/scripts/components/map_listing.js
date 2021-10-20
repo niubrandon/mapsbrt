@@ -12,8 +12,9 @@ $(() => {
           class="card-img-top"
           alt="..."
           />
-          ${isFav ?
-           `<i class="fas fa-heart fa-2x" id="fav_button"  title="Add to Fav"></i>` : `<i class="far fa-heart fa-2x" id="fav_button"  title="Add to Fav"></i>`}
+          ${user ?
+          `${isFav ?
+           `<i class="fas fa-heart fa-2x fav_button"  title="Remove  Fav" value="0"></i>` : `<i class="far fa-heart fa-2x fav_button"  title="Add to Fav" value="1"></i>`}` : ``}
         </div>
         <div class="card-body">
           <h5 class="card-title">${maps.title}</h5>

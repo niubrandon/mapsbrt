@@ -32,7 +32,7 @@ $(() => {
 function getListOfUserMaps(div) {
   getAllUserMaps()
     .then(function( json ) {
-      mapListings.ListAllMaps(json.maps);
+      mapListings.ListAllMaps(json.maps, false, true);
       $mapListings.appendTo(div);
     })
     .catch(error => error);
@@ -41,7 +41,7 @@ function getListOfUserMaps(div) {
 function getListOfFavouriteMaps(div) {
   getAllFavMaps()
   .then(function( json ) {
-    mapListings.ListAllMaps(json.maps, true);
+    mapListings.ListAllMaps(json.maps, true, true);
     $mapListings.appendTo(div);
   })
   .catch(error => error);
