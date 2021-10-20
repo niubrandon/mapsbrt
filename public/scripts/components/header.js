@@ -72,7 +72,7 @@ $(document).ready(function() {
       console.log("response from server", success);
       updateHeader(null);
       $("main").empty();
-      index.loadIndex();
+      index.loadIndex(null);
     });
     //post ajax to remove cookie
   });

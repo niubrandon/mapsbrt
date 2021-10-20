@@ -53,7 +53,7 @@ $(document).ready(function() {
         }
         header.update(success["user"]);
         $("main").empty();
-        index.loadIndex();
+        index.loadIndex(success["user"]);
       });
 
 

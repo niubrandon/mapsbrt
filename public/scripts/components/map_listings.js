@@ -21,11 +21,12 @@ $(() => {
 
   window.mapListings.clearListings = clearListings;
 
-  function ListAllMaps(Maps, isFav = false) {
+
+  function ListAllMaps(Maps, isFav, user) {
     clearListings();
     for (const mapId in Maps) {
       const map = Maps[mapId];
-      const listing = mapListing.ListMap(map, isFav);
+      const listing = mapListing.ListMap(map, isFav, user);
       allMaps(listing);
     }
   }

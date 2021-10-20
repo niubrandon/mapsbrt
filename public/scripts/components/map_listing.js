@@ -1,7 +1,7 @@
 $(() => {
   window.mapListing = {};
 
-  function ListMap(maps, isFav) {
+  function ListMap(maps, isFav, user) {
     // console.log(isFav);
     return `
     <div class="col">
@@ -21,7 +21,8 @@ $(() => {
             ${maps.description}
           </p>
         </div>
-        <button class="btn btn-primary" value = "${maps.id}">Details</button>
+        ${user ? `<button class="btn btn-primary" value = "${maps.id}" >Details</button>` :
+        `<button class="btn btn-primary" value = "${maps.id}" disabled >Details</button>` }
       </div>
     </div>`
   }

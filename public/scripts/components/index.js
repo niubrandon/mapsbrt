@@ -1,16 +1,17 @@
 $(() => {
 const $main = $('#main-content');
 window.index = {};
-function loadIndex() {
+
+function loadIndex(user) {
   const $main = $("main");
   getAllMaps()
   .then(function( json ) {
-    mapListings.ListAllMaps(json.maps);
+    mapListings.ListAllMaps(json.maps, false, user);
     $mapListings.appendTo($main);
   });
 }
 
-loadIndex();
+loadIndex(null);
 
 window.index.loadIndex = loadIndex;
 
