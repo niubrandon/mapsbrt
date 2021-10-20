@@ -128,6 +128,8 @@ $(() => {
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
       <input name="imageUrl" type="text" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
+      <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
+      <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
       const newInfo = new google.maps.InfoWindow({
@@ -177,10 +179,9 @@ $(() => {
       const currMapID = document.querySelector("#points-form > button").value;
       event.preventDefault();
       const serializeData = $("#points-form").serialize();
-      const $title = $("#point-title").val();
-      const $description = $("#point-title").val();
       $.post(`/api/maps/${currMapID}/points`,
-        serializeData, (success) => {
+        serializeData,
+        (success) => {
           console.log(success);
         });
     });

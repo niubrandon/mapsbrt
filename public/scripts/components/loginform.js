@@ -30,7 +30,7 @@ $(document).ready(function() {
 
       //serialize data before post
       const serializeData = $("#login-form").serialize();
-      console.log("serialized data from user login form", serializeData);
+      // console.log("serialized data from user login form", serializeData);
       //validate form submitted content
 
       $.post("/api/users/login", serializeData, (success) => {

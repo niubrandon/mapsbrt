@@ -56,11 +56,26 @@ exports.getPointsbyMapID = getPointsbyMapID;
 
 /**
  * POST points to the map ID
- * @param {*} point_elements
+ * @param {*} mapid
+ * @param {*} title
+ * @param {*} description
+ * @param {*} point_lat
+ * @param {*} point_lng
+ * @param {*} image_url
+ * @param {*} creator_id
  * @returns
  * A single map from maps
  */
-const postPointsbyMapID = function(mapid = 1) {
+const postPointsbyMapID = function(
+  mapid = 1,
+  title = 'defaultTitle',
+  description = 'defaultdesc',
+  point_lat,
+  point_lng,
+  image_url = 'defaulturl',
+  creator_id
+
+) {
   const queryString =  `
   INSERT INTO points (
     map_id,
@@ -73,7 +88,14 @@ const postPointsbyMapID = function(mapid = 1) {
   )
   VALUES ($1, $2, $3, $4, $5, $6, $7)
  `;
-  return db.query(queryString, [mapid], false);
+  return db.query(queryString, [
+    mapid,
+    title,
+    description,
+    point_lat,
+    point_lng,
+    image_url,
+    creator_id], false);
 };
 exports.postPointsbyMapID = postPointsbyMapID;
 

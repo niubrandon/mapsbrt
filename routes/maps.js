@@ -45,7 +45,7 @@ module.exports = function(router, database) {
     database.getMapbyID(req.params.id)
       .then(
         maps => {
-          console.log('req params',req.params.id);
+          // console.log('req params',req.params.id);
           res.send({ maps });
         })
       .catch(err => {
@@ -58,7 +58,7 @@ module.exports = function(router, database) {
 
   // Get points of single map
   router.get("/:id/points", (req, res) => {
-    database.getPointsbyMapID(req.params.id)
+    database.getPointsbyMapID(req.body.id)
       .then(
         points => {
           // console.log('points param',req.params.id);
@@ -73,13 +73,23 @@ module.exports = function(router, database) {
   });
 
   // Post a new point of single map
+  // Should have 7 of inputs
   router.post("/:id/points", (req, res) => {
     console.log('posting point');
-    database.postPointsbyMapID(req.params.id)
+    database.postPointsbyMapID(
+      req.param.id, //Through the request
+      req.body.title, //Form
+      req.body.description, // Form
+      req.body.lat, //How
+      req.body.lng,
+      req.body.imageUrl, // Form
+      req.session.userId //User ID
+    )
       .then(
         points => {
-          // console.log('points param',req.params.id);
-          res.send({ points });
+          console.log('points param',req.params.id);
+          console.log('points body',req.body.id);
+          res.status(202).send({points});
         })
       .catch(err => {
         // console.log('single map err?');
