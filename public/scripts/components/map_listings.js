@@ -33,7 +33,7 @@ $(() => {
 
   window.mapListings.ListAllMaps = ListAllMaps;
 
-  $(document).on("click",".btn-primary",
+  $(document).on("click",".details-button",
     function() {
       // console.log("this .val",$(this).val());
       // clearMap();
