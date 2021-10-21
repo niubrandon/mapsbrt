@@ -118,12 +118,14 @@ $(() => {
       // ADD point TEXTBOX
       const newPointForm = `
       <form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
-      <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
+      <div>ADD A POINT</div>
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
       <input name="imageUrl" type="url" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
-      <input name="lng" type="float" required class="form-control" value="${pos.toJSON().lng}" aria-label="image" aria-describedby="basic-addon1">
       <input name="lat" type="float" required class="form-control" value="${pos.toJSON().lat}" aria-label="image" aria-describedby="basic-addon1">
+      <small class="form-text text-muted">Latitude</small>
+      <input name="lng" type="float" required class="form-control" value="${pos.toJSON().lng}" aria-label="image" aria-describedby="basic-addon1">
+      <small class="form-text text-muted">Longitude</small>
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
       const newInfo = new google.maps.InfoWindow({
@@ -191,10 +193,15 @@ $(() => {
     <form id="update-points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
     <input name="point_id" required type="text" class="form-control" value="${pointid}" aria-label="title" aria-describedby="basic-addon1">
     <input name="point_title" required type="text" class="form-control" value="${title}" aria-label="title" aria-describedby="basic-addon1">
+    <small class="form-text text-muted">Point Title</small>
     <input name="description" type="text" required class="form-control" value="${description}" aria-label="description" aria-describedby="basic-addon1">
+    <small class="form-text text-muted">Description</small>
     <input name="imageUrl" type="url" required class="form-control" value="${url}" aria-label="image" aria-describedby="basic-addon1">
-    <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+    <small class="form-text text-muted">Image Url</small>
     <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
+    <small class="form-text text-muted">Longitude</small>
+    <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+    <small class="form-text text-muted">Latitude</small>
     <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
     `;
   };

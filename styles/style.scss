@@ -6,12 +6,22 @@
   /* The width is the width of the web page */
 }
 
+#points-form{
+  display: flex;
+  flex-direction: column;
+}
+
 #update-points > div > div.pointsid{
   display: none;
 }
 
 #update-points-form > input:nth-child(1){
   display: none;
+}
+
+#update-points-form{
+  display: flex;
+  flex-direction: column;
 }
 
 #update-points > div > img{
