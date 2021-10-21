@@ -202,7 +202,7 @@ Delete a map from auth user
 const deleteMapFromAuthUser = function(mapId) {
   const queryString = `
   DELETE FROM maps
-  WHERE id = $1;
+  WHERE id = $1
   RETURNING *;
   `;
   return db.query(queryString, [mapId], true);

@@ -157,7 +157,6 @@ need map id from ajax post call
     //check cookie first
     const mapId = req.params.id;
     const userName = req.session.userid;
-    console.log("ajax post data is deleting a map is", req.body);
     database.deleteMapFromAuthUser(mapId).then(data => {
       if (data) {
         res.status(201).send({data});
@@ -168,13 +167,6 @@ need map id from ajax post call
 
   });
 
-  /*
-POST on modify a map endpoint
-:id is username from auth user
-:mapId is the map id belong to the auth user
-need map id from ajax post call
-need to submit all the changes
-*/
 
 
 
