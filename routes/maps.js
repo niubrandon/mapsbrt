@@ -78,8 +78,8 @@ module.exports = function(router, database) {
   router.post("/:id/points", (req, res) => {
     // console.log('posting point');
     database.postPointsbyMapID(
-      req.param.id, //Through the request
-      req.body.title, //Form
+      req.params.id, //Through the request
+      req.body.point_title, //Form
       req.body.description, // Form
       req.body.lat, //from event
       req.body.lng,
