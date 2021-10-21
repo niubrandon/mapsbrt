@@ -193,7 +193,7 @@ $(() => {
   // UPDATE POINT
   // Ajax
   const updatePoint = function(pointId) {
-    console.log('deletefunction');
+    console.log('updatefunction');
     return $.ajax({
       method: "PUT",
       url: `api/maps/points/${pointId}/update`,
