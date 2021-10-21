@@ -90,7 +90,7 @@ $(() => {
 
     // Texbox content Generated for each point in database
     for (let elem of markerList) {
-      const contentString =
+      const displayContent =
       `<form id="update-points"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
       <div class="content">
       <div class = pointsid>${elem.id}</div>
@@ -101,7 +101,7 @@ $(() => {
       <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
-        content: contentString,
+        content: displayContent,
       });
 
       elem.addListener("click", () => {
