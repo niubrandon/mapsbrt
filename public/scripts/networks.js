@@ -45,8 +45,8 @@ function deleteMap(userId, mapId) {
   })
 }
 
+// Point functions ---------------------------
 const addPoint = function(currMapID,addInput) {
-  console.log('addpointfunction');
   return $.ajax({
     method: "POST",
     url: `/api/maps/${currMapID}/points`,
@@ -55,7 +55,6 @@ const addPoint = function(currMapID,addInput) {
 };
 
 const deletePoint = function(pointId) {
-  // console.log('deletefunction');
   return $.ajax({
     method: "DELETE",
     url: `api/maps/points/${pointId}/delete`,
@@ -63,7 +62,6 @@ const deletePoint = function(pointId) {
 };
 
 const updatePoint = function(pointId,updateInput) {
-  console.log('updatefunction');
   return $.ajax({
     method: "PUT",
     url: `api/maps/points/${pointId}/update`,
