@@ -5,9 +5,6 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
-
-// 43.021625, -81.434419
-
 module.exports = function(router, database) {
 
   router.get("/", (req, res) => {
@@ -46,7 +43,6 @@ module.exports = function(router, database) {
     database.getMapbyID(req.params.id)
       .then(
         maps => {
-          // console.log('req params',req.params.id);
           res.send({ maps });
         })
       .catch(err => {
@@ -62,11 +58,9 @@ module.exports = function(router, database) {
     database.getPointsbyMapID(req.params.id)
       .then(
         points => {
-          // console.log('points param',req.params.id);
           res.send({ points });
         })
       .catch(err => {
-        // console.log('single map err?');
         res
           .status(500)
           .json({ error: err.message });
@@ -78,20 +72,19 @@ module.exports = function(router, database) {
   router.post("/:id/points", (req, res) => {
     // console.log('posting point');
     database.postPointsbyMapID(
-      req.params.id, //Through the request
-      req.body.point_title, //Form
-      req.body.description, // Form
-      req.body.lat, //from event
+      req.params.id,
+      req.body.point_title,
+      req.body.description,
+      req.body.lat,
       req.body.lng,
-      req.body.imageUrl, // Form
-      req.session.userId //User ID
+      req.body.imageUrl,
+      req.session.userId
     )
       .then(
         points => {
           res.status(202).send({points});
         })
       .catch(err => {
-        // console.log('single map err?');
         res
           .status(500)
           .json({ error: err.message });
@@ -101,15 +94,14 @@ module.exports = function(router, database) {
   // Update a new point of single map
   // Should have 7 inputs
   router.put(`/points/:pointid/update`, (req, res) => {
-    // console.log('posting point');
     database.updatePoint(
-      req.params.pointid, //Through the request
-      req.body.point_title, //Form
-      req.body.description, // Form
-      req.body.lat, //from existing info
+      req.params.pointid,
+      req.body.point_title,
+      req.body.description,
+      req.body.lat,
       req.body.lng,
-      req.body.imageUrl, // Form
-      req.session.userId //User ID
+      req.body.imageUrl,
+      req.session.userId
     )
       .then(
         points => {
@@ -142,9 +134,9 @@ module.exports = function(router, database) {
 
 
   /*
-find user information from username
-user is an object may contain username and password
-*/
+  find user information from username
+  user is an object may contain username and password
+  */
   const userInformation = function(user) {
     return database.findUserFromUsername(user).then(data => {
       console.log("finding user from finduser query", data.id);
@@ -186,10 +178,10 @@ user is an object may contain username and password
 
 
   /*
-POST on delete a map endpoint
-:id is the map id belong to the auth user
-need map id from ajax post call
-*/
+  POST on delete a map endpoint
+  :id is the map id belong to the auth user
+  need map id from ajax post call
+  */
 
   router.delete("/:userid/deletemap/:id", (req, res) => {
     //check cookie first
@@ -206,8 +198,8 @@ need map id from ajax post call
   });
 
   /*
-POST on update a map endpoint
-*/
+  POST on update a map endpoint
+  */
 
   router.put("/:userid/updatemap/:id", (req, res) => {
   //check cookie first
