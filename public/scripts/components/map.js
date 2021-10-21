@@ -90,14 +90,14 @@ $(() => {
     // Texbox content Generated for each point in database
     for (let elem of markerList) {
       const contentString =
-      `<form id="points-form"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
-      <div id="content">
+      `<form id="update-points"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
+      <div class="content">
       <div class = pointsid>${elem.id}</div>
       <div class = title>${elem.title}</div>
       <div class = description>${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">UPDATE</button>
-      <button class="btn btn-danger delete-button" value = "${elem.id}" >Delete</button>
+      <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
@@ -185,30 +185,39 @@ $(() => {
       $.post(`/api/maps/${currMapID}/points`,
         serializeData,
         (success) => {
-          console.log(success);
+          window.$mapObj.displayMap(currMapID);
+          // console.log(success);
         });
     });
 
   const deletePoint = function(pointId) {
+    console.log('deletefunction');
     return $.ajax({
       method: "DELETE",
       url: `api/maps/points/${pointId}/delete`,
     });
   };
+  window.$mapObj.deletePoint = deletePoint;
 
   // Delete point
-  $(document).on("click", "#points-form > button.btn.btn-danger.delete-button", function() {
-    if (confirm("Are you sure You want to delete the point?")) {
-      deletePoint(pointId)
-        .then(success => {
-          reload();
-          // toastr.success("Map Deleted");
-        })
-        .catch(error => {
-          // toastr.error(err.message);
-        })
-    }
-  })
+  $(document).on("click",
+    "#update-points > button.btn.btn-danger",
+    function(event) {
+      event.preventDefault();
+      const currMapID = window.$mapObj.mapid;
+      if (confirm("Are you sure You want to delete the point?")) {
+        const pointId = document.querySelector("#update-points > button.btn.btn-danger").value;
+        console.log('this is pointval', pointId);
+        window.$mapObj.deletePoint(pointId)
+          .then(success => {
+            window.$mapObj.displayMap(currMapID);
+            console.log(success);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    });
 
   window.$mapObj.initMap = initMap;
 

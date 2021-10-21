@@ -76,7 +76,7 @@ module.exports = function(router, database) {
   // Post a new point of single map
   // Should have 7 of inputs
   router.post("/:id/points", (req, res) => {
-    console.log('posting point');
+    // console.log('posting point');
     database.postPointsbyMapID(
       req.param.id, //Through the request
       req.body.title, //Form
@@ -102,10 +102,11 @@ module.exports = function(router, database) {
 
   // DELETE points of single map
   router.delete("/points/:pointsid/delete", (req, res) => {
-    database.deletePoint(req.param.pointsid)
+    database.deletePoint(req.params.pointsid)
       .then(
         points => {
-          // console.log('points param',req.params.id);
+          console.log('points param',req.params.pointsid);
+          console.log('points pointsid',req.params.pointsid);
           res.send({ points });
         })
       .catch(err => {
