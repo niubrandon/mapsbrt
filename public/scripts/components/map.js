@@ -1,4 +1,3 @@
-
 $(() => {
   const $mapObj = $(`
   <div id="map"></div>
