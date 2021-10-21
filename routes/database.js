@@ -147,8 +147,8 @@ const updatePoint = function(
     point_lng = $5,
     image_url = $6,
     creator_id = $7
-    WHERE id = $1;
-    RETURNING *
+    WHERE id = $1
+    RETURNING *;
   `;
   const values = [
     point_id,
@@ -160,8 +160,8 @@ const updatePoint = function(
     creator_id
   ];
   return db.query(queryString, values, false);
-
 };
+
 exports.updatePoint = updatePoint;
 
 /**
