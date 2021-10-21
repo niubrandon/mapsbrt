@@ -24,28 +24,29 @@ $(document).ready(function() {
     //replace with the loginForm
     $("main").append($loginForm);
 
-    //jQuery post for user login and authentication from route /users/login
-    $(document).on("submit","#login-form", function(event) {
-      event.preventDefault();
-
-      //serialize data before post
-      const serializeData = $("#login-form").serialize();
-      // console.log("serialized data from user login form", serializeData);
-      //validate form submitted content
-      toastr.remove();
-      $.post("/api/users/login", serializeData, (success) => {
-        if (success.error === "error") {
-          toastr.error("Wrong Credential");
-          return;
-        }
-        header.update(success["user"]);
-        $("main").empty();
-        index.loadIndex(success["user"]);
-      });
-
-    });
-
   });
 
+
+});
+
+
+//jQuery post for user login and authentication from route /users/login
+$(document).on("submit","#login-form", function(event) {
+  event.preventDefault();
+
+  //serialize data before post
+  const serializeData = $("#login-form").serialize();
+  // console.log("serialized data from user login form", serializeData);
+  //validate form submitted content
+  toastr.remove();
+  $.post("/api/users/login", serializeData, (success) => {
+    if (success.error === "error") {
+      toastr.error("Wrong Credential");
+      return;
+    }
+    header.update(success["user"]);
+    $("main").empty();
+    index.loadIndex(success["user"]);
+  });
 
 });

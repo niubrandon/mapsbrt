@@ -166,7 +166,7 @@ POST on delete a map endpoint
 need map id from ajax post call
 */
 
-  router.post("/:userid/deletemap/:id", (req, res) => {
+  router.delete("/:userid/deletemap/:id", (req, res) => {
     //check cookie first
     const mapId = req.params.id;
     const userName = req.session.userid;

@@ -37,9 +37,10 @@ function removeFromFav(mapId) {
   });
 }
 
+//added?_method=DELETE to have restful style
 function deleteMap(userId, mapId) {
   return $.ajax({
     method: "POST",
-    url: `api/maps/${userId}/deletemap/${mapId}`,
+    url: `api/maps/${userId}/deletemap/${mapId}?_method=DELETE`,
   })
 }
