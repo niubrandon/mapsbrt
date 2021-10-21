@@ -95,7 +95,7 @@ $(() => {
       <div class="content">
       <div class = pointsid>${elem.id}</div>
       <div class = title>${elem.title}</div>
-      <div class = description>${elem.description}</div>
+      <div class = description lat = "${elem.position.toJSON().lat}" lng = "${elem.position.toJSON().lng}">${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
       <button class="btn btn-update" value = "${elem.id}">UPDATE</button>
       <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
@@ -191,24 +191,20 @@ $(() => {
         });
     });
   // UPDATE POINT
-  // Ajax
-  const updatePoint = function(pointId) {
-    console.log('updatefunction');
-    return $.ajax({
-      method: "PUT",
-      url: `api/maps/points/${pointId}/update`,
-    });
-  };
-  window.$mapObj.updatePoint = updatePoint;
-
-  const updatePointForm = (pos) => {
+  const updatePointForm = (
+    pointid,
+    title,
+    description,
+    url,
+    pos
+  ) => {
     return `<form id="update-points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
-  <input id="point_id"  name="point_id" required type="text" class="form-control" value="${document.querySelector("#update-points > .pointsid").value}" aria-label="title" aria-describedby="basic-addon1">
-  <input id="point_id"  name="point_id" required type="text" class="form-control" value="${document.querySelector("#update-points > .title").value}" aria-label="title" aria-describedby="basic-addon1">
-  <input name="description" type="text" required class="form-control" value="${document.querySelector("#update-points > .description").value}" aria-label="description" aria-describedby="basic-addon1">
-  <input name="imageUrl" type="url" required class="form-control" value="${document.querySelector("#update-points > .imageUrl").value}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lng" type="float" required class="form-control" value="${pos}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lat" type="float" required class="form-control" value="${pos}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="point_id" required type="text" class="form-control" value="${pointid}" aria-label="title" aria-describedby="basic-addon1">
+  <input name="point_title" required type="text" class="form-control" value="${title}" aria-label="title" aria-describedby="basic-addon1">
+  <input name="description" type="text" required class="form-control" value="${description}" aria-label="description" aria-describedby="basic-addon1">
+  <input name="imageUrl" type="url" required class="form-control" value="${url}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lng" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lat" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
   <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
   `;
   };
@@ -218,31 +214,55 @@ $(() => {
     "#update-points > button.btn.btn-update",
     function(event) {
       event.preventDefault();
-      console.log('update clicked');
+      // console.log('update clicked');
+      const updateForm = updatePointForm(
+        document.querySelector("#update-points > div > div.pointsid").textContent,
+        document.querySelector("#update-points > div > div.title").textContent,
+        document.querySelector("#update-points > div > div.description").textContent,
+        document.querySelector("#update-points > div > img").src,
+        {
+          lat: document.querySelector("#update-points > div > div.description").getAttribute('lat'),
+          lng: document.querySelector("#update-points > div > div.description").getAttribute('lng'),
+        }
+      );
       $('#update-points').empty();
-      $('#update-points').append(updatePointForm());
+      $('#update-points').append(updateForm);
 
-      // insert form here
 
-      // if (confirm("Are you sure You want to update the point?")) {
-      //   const pointId = document.querySelector("#update-points > button.btn.btn-update").value;
-      //   window.$mapObj.updatePoint(
-      //     pointId,
-      //     req.body.title, //Form
-      //     req.body.description, // Form
-      //     req.body.lat, //from existing info
-      //     req.body.lng,
-      //     req.body.imageUrl, // Form
-      //     req.session.userId //User ID
-      //   )
-      //     .then(success => {
-      //       window.$mapObj.displayMap(currMapID);
-      //       console.log(success);
-      //     })
-      //     .catch(error => {
-      //       console.log(error);
-      //     });
-      // }
+    });
+
+  // Ajax
+  const updatePoint = function(pointId,updateInput) {
+    console.log('updatefunction');
+    return $.ajax({
+      method: "PUT",
+      url: `api/maps/points/${pointId}/update`,
+      data: updateInput
+    });
+  };
+  window.$mapObj.updatePoint = updatePoint;
+
+  // Update form listener
+  $(document).on("click",
+    "#update-points-form > button",
+    (event) => {
+      event.preventDefault();
+      if (confirm("Are you sure You want to update the point?")) {
+        const currMapID = window.$mapObj.mapid;
+        const pointId = document.querySelector("#update-points-form > button").value;
+        const serializeData = $("#update-points-form").serialize();
+        window.$mapObj.updatePoint(
+          pointId,
+          serializeData
+        )
+          .then(success => {
+            window.$mapObj.displayMap(currMapID);
+            console.log(success);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     });
 
   // Delete point
@@ -258,7 +278,7 @@ $(() => {
 
   // Delete Listener
   $(document).on("click",
-    "#update-points > button.btn.btn-danger",
+    "#update-points-form > button.btn.btn-danger",
     function(event) {
       event.preventDefault();
       const currMapID = window.$mapObj.mapid;
