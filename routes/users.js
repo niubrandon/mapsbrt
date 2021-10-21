@@ -11,23 +11,6 @@ const salt = bcrypt.genSaltSync(10);
 
 module.exports = function(router, database) {
 
-//obsolete
-/*
-  router.get("/", (req, res) => {
-    database.getUsers()
-      .then(users => {
-        res.send({ users });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
- */
-
-
-
   /*
   check user login
   --need this function to return and promise so it can be further processed from login and register
@@ -51,7 +34,7 @@ module.exports = function(router, database) {
   exports.login = login;
 
 
-/*
+  /*
 register helper function
 given input with user object when register new user and return a promise with user information
 */
@@ -140,7 +123,7 @@ given input with user object when register new user and return a promise with us
       });
   });
 
-/*
+  /*
 is this route obsolete?
 */
   router.get("/me", (req, res) => {
@@ -166,26 +149,26 @@ is this route obsolete?
     const userId = req.session.userId;
     const mapId = req.params.mapid;
     database.addToFav(userId, mapId)
-        .then(fav => {
-          res.send(true);
-        })
-        .catch(err => {
-          res.send(err.message);
-        })
-  })
+      .then(fav => {
+        res.send(true);
+      })
+      .catch(err => {
+        res.send(err.message);
+      });
+  });
 
   //to remove it from fav
   router.post("/fav/:mapid/remove", (req, res) => {
     const userId = req.session.userId;
     const mapId = req.params.mapid;
     database.removeFromFav(userId, mapId)
-        .then(fav => {
-          res.send(true);
-        })
-        .catch(err => {
-          res.send(err.message);
-        })
-  })
+      .then(fav => {
+        res.send(true);
+      })
+      .catch(err => {
+        res.send(err.message);
+      });
+  });
 
 
   return router;
