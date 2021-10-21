@@ -45,6 +45,19 @@ function deleteMap(userId, mapId) {
   })
 }
 
+// Map functions ---------------------------
+const getMapbyID = function(id) {
+  return $.ajax({
+    url: `/api/maps/${id}`,
+  });
+};
+
+const getPointsbyMapID = function(id) {
+  return $.ajax({
+    url: `/api/maps/${id}/points`,
+  });
+};
+
 // Point functions ---------------------------
 const addPoint = function(currMapID,addInput) {
   return $.ajax({
