@@ -8,9 +8,9 @@ INSERT INTO maps(title,description,lat,lng,zoom,creator_id)
 
   ('Toronto Restuarents', 'Great Restaurents in Toronto', 43.67993014484222, -79.43711990295365 , 15, 1),
 
-  ('Japanese Food', 'Japanese foods',67993014484222, -79.43711990295365, 18, 1),
+  ('Japanese Food', 'Japanese foods',43.67993014484222, -79.43711990295365, 18, 1),
 
-  ('Cinemas','Cinema Theatres' , 67993014484222, -79.43711990295365, 18, 1),
+  ('Cinemas','Cinema Theatres' , 43.67993014484222, -79.43711990295365, 18, 1),
 
   ('Italian Cuisine', 'Best Italian food', 43.683334, -79.766670, 10, 3),
 

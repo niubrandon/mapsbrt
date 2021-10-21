@@ -45,7 +45,23 @@ function deleteMap(userId, mapId) {
   })
 }
 
-// Map functions ---------------------------
+
+///get map details with mapId
+function getMapDetailswithMapId(mapId) {
+  return $.ajax({
+    url: `api/maps/${mapId}`,
+  });
+}
+
+function updateMapDetails(user_id, map_id, data) {
+  return $.ajax({
+    method: "PUT",
+    url: `/api/maps/${user_id}/updatemap/${map_id}`,
+    data,
+  });
+}
+
+// Map functions
 const getMapbyID = function(id) {
   return $.ajax({
     url: `/api/maps/${id}`,
@@ -58,7 +74,7 @@ const getPointsbyMapID = function(id) {
   });
 };
 
-// Point functions ---------------------------
+// Point functions 
 const addPoint = function(currMapID,addInput) {
   return $.ajax({
     method: "POST",
@@ -81,3 +97,4 @@ const updatePoint = function(pointId,updateInput) {
     data: updateInput
   });
 };
+
