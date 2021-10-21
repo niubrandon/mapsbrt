@@ -108,8 +108,8 @@ $(() => {
     const map_id = $("#mapId").attr("value");
     updateMapDetails(creatorId, map_id , serializedData)
       .then(result => {
-        reload();
         toastr.success("Successfully Edited");
+        reload();
       })
       .catch(err => {
         toastr.erro(err.message);
