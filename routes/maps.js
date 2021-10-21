@@ -104,7 +104,7 @@ module.exports = function(router, database) {
     // console.log('posting point');
     database.updatePoint(
       req.params.pointid, //Through the request
-      req.body.title, //Form
+      req.body.point_title, //Form
       req.body.description, // Form
       req.body.lat, //from existing info
       req.body.lng,

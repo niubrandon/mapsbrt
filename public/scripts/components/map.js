@@ -249,7 +249,7 @@ $(() => {
       event.preventDefault();
       if (confirm("Are you sure You want to update the point?")) {
         const currMapID = window.$mapObj.mapid;
-        const pointId = document.querySelector("#update-points-form > button").value;
+        const pointId = Number(document.querySelector("#update-points-form > input:nth-child(1)").value);
         const serializeData = $("#update-points-form").serialize();
         window.$mapObj.updatePoint(
           pointId,
