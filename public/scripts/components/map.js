@@ -76,31 +76,34 @@ $(() => {
           lat : elem.point_lat,
           lng : elem.point_lng
         },
-        icon: image,
-        map: map,
+        id: elem.id,
         title: elem.title,
         description: elem.description,
         imageUrl: elem.image_url,
+        icon: image,
+        map: map,
         shape: shape,
-
       }));
     }
 
+    // UPDATE TEXTBOX
 
     // Texbox content Generated for each point in database
     for (let elem of markerList) {
-      const contentString =
-      `<form id="points-form"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
-      <div id="content">
+      const displayContent =
+      `<form id="update-points"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
+      <div class="content">
+      <div class = pointsid>${elem.id}</div>
       <div class = title>${elem.title}</div>
       <div class = description>${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
-      <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">UPDATE</button>
+      <button class="btn btn-update" value = "${window.$mapObj.mapid}">UPDATE</button>
+      <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
-        content: contentString,
+        content: displayContent,
       });
-
+      // click listener
       elem.addListener("click", () => {
         map.setZoom(zoom);
         map.setCenter(elem.getPosition());
@@ -123,17 +126,17 @@ $(() => {
       });
       // console.log('pos to json',pos.toJSON());
       // Form for new point
-      const pointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
+      const newPointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
-      <input name="imageUrl" type="text" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
+      <input name="imageUrl" type="url" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
       <input name="lng" type="float" required class="form-control" value="${pos.toJSON().lng}" aria-label="image" aria-describedby="basic-addon1">
       <input name="lat" type="float" required class="form-control" value="${pos.toJSON().lat}" aria-label="image" aria-describedby="basic-addon1">
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
       `;
       const newInfo = new google.maps.InfoWindow({
-        content: pointForm,
+        content: newPointForm,
       });
 
       // Temppoint on click
@@ -172,7 +175,7 @@ $(() => {
   };
 
   // newInfo.preventDefault;
-  // Submitting new form
+  // Submitting new point
   $(document).on(
     "submit",
     "#points-form",
@@ -183,8 +186,51 @@ $(() => {
       $.post(`/api/maps/${currMapID}/points`,
         serializeData,
         (success) => {
-          console.log(success);
+          window.$mapObj.displayMap(currMapID);
+          // console.log(success);
         });
+    });
+  // UPDATE POINT
+  // Ajax
+  const updatePoint = function(pointId) {
+    console.log('deletefunction');
+    return $.ajax({
+      method: "PUT",
+      url: `api/maps/points/${pointId}/update`,
+    });
+  };
+  window.$mapObj.updatePoint = updatePoint;
+
+
+  // Delete point
+  // Ajax
+  const deletePoint = function(pointId) {
+    // console.log('deletefunction');
+    return $.ajax({
+      method: "DELETE",
+      url: `api/maps/points/${pointId}/delete`,
+    });
+  };
+  window.$mapObj.deletePoint = deletePoint;
+
+  // Delete Listener
+  $(document).on("click",
+    "#update-points > button.btn.btn-danger",
+    function(event) {
+      event.preventDefault();
+      const currMapID = window.$mapObj.mapid;
+      if (confirm("Are you sure You want to delete the point?")) {
+        const pointId = document.querySelector("#update-points > button.btn.btn-danger").value;
+        console.log('this is pointval', pointId);
+        window.$mapObj.deletePoint(pointId)
+          .then(success => {
+            window.$mapObj.displayMap(currMapID);
+            console.log(success);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     });
 
   window.$mapObj.initMap = initMap;
@@ -225,5 +271,6 @@ $(() => {
       });
   };
   window.$mapObj.displayMap = displayMap;
+
 });
 

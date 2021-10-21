@@ -123,6 +123,17 @@ const getAllUserMaps = function(userId, limit = 3) {
 };
 exports.getAllUserMaps = getAllUserMaps;
 
+const deletePoint = function(pointID) {
+  const queryString =  `
+    DELETE
+    FROM points
+    WHERE id = $1
+    `;
+  const values = [pointID];
+  return db.query(queryString, values, false);
+};
+exports.deletePoint = deletePoint;
+
 /**
  *
  * @param {*} limit
