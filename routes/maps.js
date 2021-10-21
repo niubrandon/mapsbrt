@@ -59,7 +59,7 @@ module.exports = function(router, database) {
 
   // Get points of single map
   router.get("/:id/points", (req, res) => {
-    database.getPointsbyMapID(req.body.id)
+    database.getPointsbyMapID(req.params.id)
       .then(
         points => {
           // console.log('points param',req.params.id);
