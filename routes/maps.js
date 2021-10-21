@@ -81,7 +81,32 @@ module.exports = function(router, database) {
       req.param.id, //Through the request
       req.body.title, //Form
       req.body.description, // Form
-      req.body.lat, //How
+      req.body.lat, //from event
+      req.body.lng,
+      req.body.imageUrl, // Form
+      req.session.userId //User ID
+    )
+      .then(
+        points => {
+          res.status(202).send({points});
+        })
+      .catch(err => {
+        // console.log('single map err?');
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  // Update a new point of single map
+  // Should have 7 inputs
+  router.put(`/points/:pointid/update`, (req, res) => {
+    // console.log('posting point');
+    database.updatePoint(
+      req.params.pointid, //Through the request
+      req.body.point_title, //Form
+      req.body.description, // Form
+      req.body.lat, //from existing info
       req.body.lng,
       req.body.imageUrl, // Form
       req.session.userId //User ID
