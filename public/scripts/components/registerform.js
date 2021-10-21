@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   const $registerForm = `
-  <div class="container">
+  <div class="container d-flex justify-content-center">
     <form id="register-form" method="post" action="/api/users/register" class="form">
     <div class="form-outline mb-4">
       <input id="username" name="username" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
@@ -12,7 +12,9 @@ $(document).ready(function() {
     <div class="form-outline mb-4">
       <input name="password" required type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
     </div>
-    <button class="btn btn-primary" type="submit">Register</button>
+    <div class = "form-group  text-center">
+      <button class="btn btn-primary" type="submit">Register</button>
+    </div>
   </form>
   </div>
   `;
