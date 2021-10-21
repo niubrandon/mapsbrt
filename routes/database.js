@@ -170,7 +170,7 @@ exports.updatePoint = updatePoint;
  * @param {*} limit
  * @returns
  */
-const getAllUserMaps = function(userId, limit = 3) {
+const getAllUserMaps = function(userId, limit = 10) {
   const queryString =  `
   SELECT *,
   CASE WHEN maps.id IN

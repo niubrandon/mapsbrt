@@ -1,7 +1,5 @@
 $(() => {
-
   // const {displayMap} = require('../map.js');
-
   const $mapListings = $(`
   <div class="row row-cols-1 row-cols-md-3 g-4" id="map_section">
       <p>Loading...</p>
@@ -21,7 +19,6 @@ $(() => {
 
   window.mapListings.clearListings = clearListings;
 
-
   function ListAllMaps(Maps, user, profile) {
     clearListings();
     for (const mapId in Maps) {
@@ -35,12 +32,10 @@ $(() => {
 
   $(document).on("click",".details-button",
     function() {
-      // console.log("this .val",$(this).val());
-      // clearMap();
       window.$mapObj.displayMap($(this).val());
     }
   );
-
+//trigger the specific div
   function reload() {
     if ($("#map_section").parent().is("main")) {
       index.loadIndex(true);
@@ -49,9 +44,7 @@ $(() => {
       $('#'+origin).click();
     }
   }
-
-
-
+ //fav map function
   $(document).on("click", ".fav_button", function() {
     let value = $(this).attr("value");
     let mapId = $(this).attr("data-mapId");
@@ -76,6 +69,7 @@ $(() => {
         })
     }
   })
+  //delete
   $(document).on("click", ".delete-button", function() {
     if (confirm("Are you sure You want to delete the map?")) {
       let mapId = $(this).attr("value");
@@ -84,11 +78,41 @@ $(() => {
       deleteMap(userId, mapId)
         .then(success => {
           reload();
-          // toastr.success("Map Deleted");
+          toastr.success("Map Deleted");
         })
         .catch(error => {
-          // toastr.error(err.message);
+          toastr.error(error.message);
         })
     }
+  })
+  //update map
+  $(document).on("click", ".mapedit-button", function() {
+    const mapId = $(this).attr("value");
+    getMapDetailswithMapId(mapId)
+      .then(result => {
+        let mapDetail = result.maps[0];
+        const modal = mapdetails.editMap(mapDetail);
+        $mapListings.append(modal);
+        $("#updateMapModal").css("display", "block");
+      })
+  })
+  $(document).on('click', '.close', function() {
+    $("#updateMapModal").css("display", "none");
+    $("#updateMapModal").remove();
+  });
+
+  $(document).on('submit', "#edit-map-form", function(event) {
+    event.preventDefault();
+    const serializedData = $("#edit-map-form").serialize();
+    const creatorId = $("#logged-userId").attr("value");
+    const map_id = $("#mapId").attr("value");
+    updateMapDetails(creatorId, map_id , serializedData)
+      .then(result => {
+        reload();
+        toastr.success("Successfully Edited");
+      })
+      .catch(err => {
+        toastr.erro(err.message);
+      })
   })
 });

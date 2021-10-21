@@ -44,3 +44,18 @@ function deleteMap(userId, mapId) {
     url: `api/maps/${userId}/deletemap/${mapId}?_method=DELETE`,
   })
 }
+
+///get map details with mapId
+function getMapDetailswithMapId(mapId) {
+  return $.ajax({
+    url: `api/maps/${mapId}`,
+  });
+}
+
+function updateMapDetails(user_id, map_id, data) {
+  return $.ajax({
+    method: "PUT",
+    url: `/api/maps/${user_id}/updatemap/${map_id}`,
+    data,
+  });
+}

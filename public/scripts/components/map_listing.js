@@ -22,9 +22,13 @@ $(() => {
             ${maps.description}
           </p>
         </div>
-        ${user ? `<button class="btn btn-primary details-button" value = "${maps.id}" >Details</button>` :
-        `<button class="btn btn-primary disabled" value = "${maps.id}" disabled >Details</button>` }
-        ${profile ? `<button class="btn btn-danger delete-button" value = "${maps.id}" >Delete</button>` : ``}
+        ${profile ?
+            `<button class="btn btn-primary details-button" value = "${maps.id}" >Details</button>
+            <button type="button" value = "${maps.id}" class="btn btn-secondary mapedit-button">Edit</button>
+            <button class="btn btn-danger delete-button" value = "${maps.id}" >Delete</button>` :
+        `${user ? `<button class="btn btn-primary details-button" value = "${maps.id}" >Details</button>` :
+        `<button class="btn btn-primary disabled" value = "${maps.id}" disabled >Details</button>` }`}
+
       </div>
     </div>`
   }

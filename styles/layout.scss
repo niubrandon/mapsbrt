@@ -66,4 +66,14 @@ main {
   margin-top:15%;
 }
 
+.card-buttons {
+  display: flex;
+  display: ms-flex;
+  display: -webkit-flex;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
 
