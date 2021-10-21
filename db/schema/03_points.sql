@@ -5,7 +5,7 @@ CREATE TABLE points (
   id SERIAL PRIMARY KEY NOT NULL,
   map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
-  description VARCHAR(255),
+  description TEXT,
   point_lng DOUBLE PRECISION NOT NULL,
   point_lat DOUBLE PRECISION NOT NULL,
   image_url VARCHAR(255) NOT NULL,
