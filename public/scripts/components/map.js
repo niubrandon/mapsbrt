@@ -97,6 +97,7 @@ $(() => {
       <div class = description>${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">UPDATE</button>
+      <button class="btn btn-danger delete-button" value = "${elem.id}" >Delete</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
@@ -173,7 +174,7 @@ $(() => {
   };
 
   // newInfo.preventDefault;
-  // Submitting new form
+  // Submitting new point
   $(document).on(
     "submit",
     "#points-form",
@@ -187,6 +188,27 @@ $(() => {
           console.log(success);
         });
     });
+
+  const deletePoint = function(pointId) {
+    return $.ajax({
+      method: "DELETE",
+      url: `api/maps/points/${pointId}/delete`,
+    });
+  };
+
+  // Delete point
+  $(document).on("click", "#points-form > button.btn.btn-danger.delete-button", function() {
+    if (confirm("Are you sure You want to delete the point?")) {
+      deletePoint(pointId)
+        .then(success => {
+          reload();
+          // toastr.success("Map Deleted");
+        })
+        .catch(error => {
+          // toastr.error(err.message);
+        })
+    }
+  })
 
   window.$mapObj.initMap = initMap;
 

@@ -100,7 +100,21 @@ module.exports = function(router, database) {
       });
   });
 
-
+  // DELETE points of single map
+  router.delete("/points/:pointsid/delete", (req, res) => {
+    database.deletePoint(req.param.pointsid)
+      .then(
+        points => {
+          // console.log('points param',req.params.id);
+          res.send({ points });
+        })
+      .catch(err => {
+        // console.log('single map err?');
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
 
 
   /*
