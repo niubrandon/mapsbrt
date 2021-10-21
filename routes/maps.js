@@ -100,10 +100,10 @@ module.exports = function(router, database) {
 
   // Update a new point of single map
   // Should have 7 inputs
-  router.put(`api/maps/points/:pointid/update`, (req, res) => {
+  router.put(`/points/:pointid/update`, (req, res) => {
     // console.log('posting point');
-    database.updatePointsbyMapID(
-      req.param.pointid, //Through the request
+    database.updatePoint(
+      req.params.pointid, //Through the request
       req.body.title, //Form
       req.body.description, // Form
       req.body.lat, //from existing info

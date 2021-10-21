@@ -97,7 +97,7 @@ $(() => {
       <div class = title>${elem.title}</div>
       <div class = description>${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
-      <button class="btn btn-update" value = "${window.$mapObj.mapid}">UPDATE</button>
+      <button class="btn btn-update" value = "${elem.id}">UPDATE</button>
       <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
       </div>`;
       const infowindow = new google.maps.InfoWindow({
@@ -201,6 +201,49 @@ $(() => {
   };
   window.$mapObj.updatePoint = updatePoint;
 
+  const updatePointForm = (pos) => {
+    return `<form id="update-points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
+  <input id="point_id"  name="point_id" required type="text" class="form-control" value="${document.querySelector("#update-points > .pointsid").value}" aria-label="title" aria-describedby="basic-addon1">
+  <input id="point_id"  name="point_id" required type="text" class="form-control" value="${document.querySelector("#update-points > .title").value}" aria-label="title" aria-describedby="basic-addon1">
+  <input name="description" type="text" required class="form-control" value="${document.querySelector("#update-points > .description").value}" aria-label="description" aria-describedby="basic-addon1">
+  <input name="imageUrl" type="url" required class="form-control" value="${document.querySelector("#update-points > .imageUrl").value}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lng" type="float" required class="form-control" value="${pos}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lat" type="float" required class="form-control" value="${pos}" aria-label="image" aria-describedby="basic-addon1">
+  <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
+  `;
+  };
+
+  // Update Listener
+  $(document).on("click",
+    "#update-points > button.btn.btn-update",
+    function(event) {
+      event.preventDefault();
+      console.log('update clicked');
+      $('#update-points').empty();
+      $('#update-points').append(updatePointForm());
+
+      // insert form here
+
+      // if (confirm("Are you sure You want to update the point?")) {
+      //   const pointId = document.querySelector("#update-points > button.btn.btn-update").value;
+      //   window.$mapObj.updatePoint(
+      //     pointId,
+      //     req.body.title, //Form
+      //     req.body.description, // Form
+      //     req.body.lat, //from existing info
+      //     req.body.lng,
+      //     req.body.imageUrl, // Form
+      //     req.session.userId //User ID
+      //   )
+      //     .then(success => {
+      //       window.$mapObj.displayMap(currMapID);
+      //       console.log(success);
+      //     })
+      //     .catch(error => {
+      //       console.log(error);
+      //     });
+      // }
+    });
 
   // Delete point
   // Ajax
@@ -220,7 +263,7 @@ $(() => {
       event.preventDefault();
       const currMapID = window.$mapObj.mapid;
       if (confirm("Are you sure You want to delete the point?")) {
-        const pointId = document.querySelector("#update-points > button.btn.btn-danger").value;
+        const pointId = document.querySelector("#update-points > .points_id").value;
         console.log('this is pointval', pointId);
         window.$mapObj.deletePoint(pointId)
           .then(success => {
@@ -232,6 +275,7 @@ $(() => {
           });
       }
     });
+
 
   window.$mapObj.initMap = initMap;
 

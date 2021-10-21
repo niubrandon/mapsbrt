@@ -104,6 +104,68 @@ exports.postPointsbyMapID = postPointsbyMapID;
 
 /**
  *
+ * @param {int} pointID
+ * @returns
+ */
+const deletePoint = function(pointID) {
+  const queryString =  `
+    DELETE
+    FROM points
+    WHERE id = $1
+    `;
+  const values = [pointID];
+  return db.query(queryString, values, false);
+};
+exports.deletePoint = deletePoint;
+
+/**
+ *
+ * @param {int} pointID
+ * @param {text} title
+ * @param {Text} description
+ * @param {float} point_lat
+ * @param {float} point_lng
+ * @param {*} image_url
+ * @param {int} creator_id
+ * @returns
+ */
+const updatePoint = function(
+  point_id,
+  title,
+  description,
+  point_lat,
+  point_lng,
+  image_url,
+  creator_id
+) {
+  const queryString = `
+    UPDATE points
+    SET
+    title = $2,
+    description = $3,
+    point_lat = $4,
+    point_lng = $5,
+    image_url = $6,
+    creator_id = $7
+    WHERE id = $1;
+    RETURNING *
+  `;
+  const values = [
+    point_id,
+    title,
+    description,
+    point_lat,
+    point_lng,
+    image_url,
+    creator_id
+  ];
+  return db.query(queryString, values, false);
+
+};
+exports.updatePoint = updatePoint;
+
+/**
+ *
  * @param {*} userId
  * @param {*} limit
  * @returns
@@ -123,16 +185,6 @@ const getAllUserMaps = function(userId, limit = 3) {
 };
 exports.getAllUserMaps = getAllUserMaps;
 
-const deletePoint = function(pointID) {
-  const queryString =  `
-    DELETE
-    FROM points
-    WHERE id = $1
-    `;
-  const values = [pointID];
-  return db.query(queryString, values, false);
-};
-exports.deletePoint = deletePoint;
 
 /**
  *
