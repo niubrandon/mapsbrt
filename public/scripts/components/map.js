@@ -1,6 +1,5 @@
 
 $(() => {
-
   const $mapObj = $(`
   <div id="map"></div>
     <script
@@ -20,13 +19,11 @@ $(() => {
   const appendMap = () => {
     $('main').prepend(window.$mapObj);
   };
-
   window.$mapObj.appendMap = appendMap;
 
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
   const mapPromise = () => new Promise((resolve, reject) => {
-    // console.log('promiseerror?');
     window.$mapObj.clearMap();
     window.$mapObj.appendMap();
     setTimeout(() => {
@@ -43,7 +40,6 @@ $(() => {
     zoom,
     points = []) {
     // Make map
-    // console.log('in init maps');
     const map = new google.maps.Map(
       document.getElementById("map"),
       {
@@ -87,11 +83,10 @@ $(() => {
     }
 
     // UPDATE TEXTBOX
-
     // Texbox content Generated for each point in database
     for (let elem of markerList) {
-      const displayContent =
-      `<form id="update-points"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
+      const displayContent = `
+      <form id="update-points"  method="PUT" action="/api/maps/${window.$mapObj.mapid}/points">
       <div class="content">
       <div class = pointsid>${elem.id}</div>
       <div class = title>${elem.title}</div>
@@ -99,7 +94,8 @@ $(() => {
       <img class = imageUrl src = ${elem.imageUrl}></div>
       <button class="btn btn-update" value = "${elem.id}">UPDATE</button>
       <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
-      </div>`;
+      </div>
+      `;
       const infowindow = new google.maps.InfoWindow({
         content: displayContent,
       });
@@ -124,9 +120,9 @@ $(() => {
         map: map,
         position: pos
       });
-      // console.log('pos to json',pos.toJSON());
-      // Form for new point
-      const newPointForm = `<form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
+      // ADD point TEXTBOX
+      const newPointForm = `
+      <form id="points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
       <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
@@ -167,10 +163,8 @@ $(() => {
           elem.setMap(null);
         }
         tempPoints = [];
-        // console.log('eventlatlong', event.latLng);
         addMarker(tempPoints, event.latLng);
-      }
-    );
+      });
     return;
   };
 
@@ -183,13 +177,14 @@ $(() => {
       const currMapID = document.querySelector("#points-form > button").value;
       event.preventDefault();
       const serializeData = $("#points-form").serialize();
-      $.post(`/api/maps/${currMapID}/points`,
-        serializeData,
-        (success) => {
-          window.$mapObj.displayMap(currMapID);
-          // console.log(success);
-        });
+      addPoint(currMapID,serializeData)
+        .then(
+          (success) => {
+            window.$mapObj.displayMap(currMapID);
+            console.log(success);
+          });
     });
+
   // UPDATE POINT
   const updatePointForm = (
     pointid,
@@ -198,15 +193,16 @@ $(() => {
     url,
     pos
   ) => {
-    return `<form id="update-points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
-  <input name="point_id" required type="text" class="form-control" value="${pointid}" aria-label="title" aria-describedby="basic-addon1">
-  <input name="point_title" required type="text" class="form-control" value="${title}" aria-label="title" aria-describedby="basic-addon1">
-  <input name="description" type="text" required class="form-control" value="${description}" aria-label="description" aria-describedby="basic-addon1">
-  <input name="imageUrl" type="url" required class="form-control" value="${url}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
-  <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
-  `;
+    return `
+    <form id="update-points-form"  method="POST" action="/api/maps/${window.$mapObj.mapid}/points">
+    <input name="point_id" required type="text" class="form-control" value="${pointid}" aria-label="title" aria-describedby="basic-addon1">
+    <input name="point_title" required type="text" class="form-control" value="${title}" aria-label="title" aria-describedby="basic-addon1">
+    <input name="description" type="text" required class="form-control" value="${description}" aria-label="description" aria-describedby="basic-addon1">
+    <input name="imageUrl" type="url" required class="form-control" value="${url}" aria-label="image" aria-describedby="basic-addon1">
+    <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+    <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
+    <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
+    `;
   };
 
   // Update Listener
@@ -214,7 +210,6 @@ $(() => {
     "#update-points > button.btn.btn-update",
     function(event) {
       event.preventDefault();
-      // console.log('update clicked');
       const updateForm = updatePointForm(
         document.querySelector("#update-points > div > div.pointsid").textContent,
         document.querySelector("#update-points > div > div.title").textContent,
@@ -227,20 +222,7 @@ $(() => {
       );
       $('#update-points').empty();
       $('#update-points').append(updateForm);
-
-
     });
-
-  // Ajax
-  const updatePoint = function(pointId,updateInput) {
-    console.log('updatefunction');
-    return $.ajax({
-      method: "PUT",
-      url: `api/maps/points/${pointId}/update`,
-      data: updateInput
-    });
-  };
-  window.$mapObj.updatePoint = updatePoint;
 
   // Update form listener
   $(document).on("click",
@@ -251,7 +233,7 @@ $(() => {
         const currMapID = window.$mapObj.mapid;
         const pointId = Number(document.querySelector("#update-points-form > input:nth-child(1)").value);
         const serializeData = $("#update-points-form").serialize();
-        window.$mapObj.updatePoint(
+        updatePoint(
           pointId,
           serializeData
         )
@@ -265,17 +247,6 @@ $(() => {
       }
     });
 
-  // Delete point
-  // Ajax
-  const deletePoint = function(pointId) {
-    // console.log('deletefunction');
-    return $.ajax({
-      method: "DELETE",
-      url: `api/maps/points/${pointId}/delete`,
-    });
-  };
-  window.$mapObj.deletePoint = deletePoint;
-
   // Delete Listener
   $(document).on("click",
     "#update-points > button.btn.btn-danger",
@@ -285,7 +256,7 @@ $(() => {
       if (confirm("Are you sure You want to delete the point?")) {
         const pointId = Number(document.querySelector("#update-points > div > div.pointsid").innerText);
         console.log('this is pointval', pointId);
-        window.$mapObj.deletePoint(pointId)
+        deletePoint(pointId)
           .then(success => {
             window.$mapObj.displayMap(currMapID);
             console.log(success);
@@ -296,9 +267,7 @@ $(() => {
       }
     });
 
-
   window.$mapObj.initMap = initMap;
-
 
   const getMapbyID = function(id) {
     return $.ajax({
@@ -335,6 +304,4 @@ $(() => {
       });
   };
   window.$mapObj.displayMap = displayMap;
-
 });
-
