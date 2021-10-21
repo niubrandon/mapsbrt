@@ -88,8 +88,6 @@ module.exports = function(router, database) {
     )
       .then(
         points => {
-          // console.log('points param',req.params.id);
-          // console.log('points body',req.body.id);
           res.status(202).send({points});
         })
       .catch(err => {

@@ -103,7 +103,7 @@ $(() => {
       const infowindow = new google.maps.InfoWindow({
         content: displayContent,
       });
-
+      // click listener
       elem.addListener("click", () => {
         map.setZoom(zoom);
         map.setCenter(elem.getPosition());
@@ -130,7 +130,7 @@ $(() => {
       <div>ADD A POINT, Map ID: ${window.$mapObj.mapid}</div>
       <input id="point-title"  name="point_title" required type="text" class="form-control" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
       <input name="description" type="text" required class="form-control" placeholder="a short description" aria-label="description" aria-describedby="basic-addon1">
-      <input name="imageUrl" type="text" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
+      <input name="imageUrl" type="url" required class="form-control" placeholder="image url" aria-label="image" aria-describedby="basic-addon1">
       <input name="lng" type="float" required class="form-control" value="${pos.toJSON().lng}" aria-label="image" aria-describedby="basic-addon1">
       <input name="lat" type="float" required class="form-control" value="${pos.toJSON().lat}" aria-label="image" aria-describedby="basic-addon1">
       <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
@@ -199,7 +199,7 @@ $(() => {
       url: `api/maps/points/${pointId}/update`,
     });
   };
-  window.$mapObj.deletePoint = deletePoint;
+  window.$mapObj.updatePoint = updatePoint;
 
 
   // Delete point
@@ -271,5 +271,6 @@ $(() => {
       });
   };
   window.$mapObj.displayMap = displayMap;
+
 });
 
