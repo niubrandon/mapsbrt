@@ -11,6 +11,7 @@ const cookieSession = require('cookie-session');
 const bcrypt = require("bcryptjs");
 const salt = bcrypt.genSaltSync(10);
 const bodyParser = require("body-parser");
+const methodOverride = require('method-override');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -36,6 +37,9 @@ app.use(cookieSession({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//Restful
+app.use(methodOverride('_method'));
 
 
 app.use(express.static("public"));
