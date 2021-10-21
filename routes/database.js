@@ -222,6 +222,40 @@ const deleteMapFromAuthUser = function(mapId) {
 exports.deleteMapFromAuthUser = deleteMapFromAuthUser;
 
 /*
+Update a map from auth user
+*/
+
+const updateMapFromAuthUser = function(mapId, userId, map) {
+  const {title, description, lng, lat, zoom} = map;
+  const queryString = `
+  UPDATE maps
+  SET title = $1,
+  description = $2,
+  lng = $3,
+  lat = $4,
+  zoom = $5
+  WHERE id = $6 AND creator_id = $7
+  RETURNING *;
+  `;
+  return db.query(queryString,[title, description, lng, lat, zoom, mapId, userId], true);
+};
+
+exports.updateMapFromAuthUser = updateMapFromAuthUser;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 findUserFromUsernameAndEmail for pre-registration check
 input with user object from post ajax form submittion
 */
@@ -236,6 +270,8 @@ const findUserFromUsernameAndEmail = function(user) {
 };
 
 exports.findUserFromUsernameAndEmail = findUserFromUsernameAndEmail;
+
+
 
 /**
  *
