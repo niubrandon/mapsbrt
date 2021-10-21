@@ -13,23 +13,19 @@ $(() => {
     $('#map').remove();
   };
 
-  window.$mapObj.clearMap = clearMap;
-
   const appendMap = () => {
     $('main').prepend(window.$mapObj);
   };
-  window.$mapObj.appendMap = appendMap;
 
   // mapPromise removes the #map element and prepends a
   // new #map div to the main tag
   const mapPromise = () => new Promise((resolve, reject) => {
-    window.$mapObj.clearMap();
-    window.$mapObj.appendMap();
+    clearMap();
+    appendMap();
     setTimeout(() => {
       resolve();
     },100);
   });
-  window.$mapObj.mapPromise = mapPromise;
 
   // function init Map creates a google map in the #map element
   // with center at (lat,long) and a zoom level of (zoom)
@@ -91,7 +87,7 @@ $(() => {
       <div class = title>${elem.title}</div>
       <div class = description lat = "${elem.position.toJSON().lat}" lng = "${elem.position.toJSON().lng}">${elem.description}</div>
       <img class = imageUrl src = ${elem.imageUrl}></div>
-      <button class="btn btn-update" value = "${elem.id}">UPDATE</button>
+      <button class="btn btn-primary btn-update" value = "${elem.id}">UPDATE</button>
       <button class="btn btn-danger" value = "${elem.id}" >Delete</button>
       </div>
       `;
@@ -146,7 +142,6 @@ $(() => {
       });
       array.push(currMarker);
     };
-    window.tempPoints = tempPoints;
 
     // Default point in center
     addMarker(tempPoints, map.center);
@@ -254,7 +249,6 @@ $(() => {
       const currMapID = window.$mapObj.mapid;
       if (confirm("Are you sure You want to delete the point?")) {
         const pointId = Number(document.querySelector("#update-points > div > div.pointsid").innerText);
-        console.log('this is pointval', pointId);
         deletePoint(pointId)
           .then(success => {
             window.$mapObj.displayMap(currMapID);
@@ -266,26 +260,12 @@ $(() => {
       }
     });
 
-  window.$mapObj.initMap = initMap;
-
-  const getMapbyID = function(id) {
-    return $.ajax({
-      url: `/api/maps/${id}`,
-    });
-  };
-
-  const getPointsbyMapID = function(id) {
-    return $.ajax({
-      url: `/api/maps/${id}/points`,
-    });
-  };
-
   // display Map takes in a single number(mapID)
   // and prepend a google maps element to the $main tag
   // where the map displayed has id mapID
   const displayMap = (mapID) => {
     window.$mapObj.mapid = mapID;
-    window.$mapObj.mapPromise()
+    mapPromise()
       .then(() => {
         return Promise.all([
           getMapbyID(mapID),
@@ -296,7 +276,7 @@ $(() => {
         let lat, lng, zoom;
         ({lat, lng, zoom} = results[0].maps[0]);
         let points = results[1].points;
-        $mapObj.initMap(lat, lng, zoom, points);
+        initMap(lat, lng, zoom, points);
         return;
       }).catch((error)=> {
         console.log('here is err', error);
