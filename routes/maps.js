@@ -169,7 +169,7 @@ need map id from ajax post call
   router.delete("/:userid/deletemap/:id", (req, res) => {
     //check cookie first
     const mapId = req.params.id;
-    const userName = req.session.userid;
+    const userName = req.session.userName;
     database.deleteMapFromAuthUser(mapId).then(data => {
       if (data) {
         res.status(201).send({data});
@@ -179,6 +179,33 @@ need map id from ajax post call
     });
 
   });
+
+  /*
+POST on update a map endpoint
+*/
+
+  router.put("/:userid/updatemap/:id", (req, res) => {
+  //check cookie first
+
+    console.log("userid and mapid from front end post ajax", mapId, userId);
+    console.log("updated map information post ajax", req.body);
+
+    const mapId = req.params.id;
+    const map = req.body;
+    const userId = req.params.userid;
+    const userName = req.session.userName;
+
+    database.updateMapFromAuthUser(mapId, userId, map).then(data => {
+      if (data) {
+        res.status(201).send({data});
+      }
+    }).catch(err => {
+      res.send({error: "error on update map post request"});
+    });
+
+  });
+
+
 
 
 
