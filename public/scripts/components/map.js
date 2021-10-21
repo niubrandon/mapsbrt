@@ -203,8 +203,8 @@ $(() => {
   <input name="point_title" required type="text" class="form-control" value="${title}" aria-label="title" aria-describedby="basic-addon1">
   <input name="description" type="text" required class="form-control" value="${description}" aria-label="description" aria-describedby="basic-addon1">
   <input name="imageUrl" type="url" required class="form-control" value="${url}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lng" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
-  <input name="lat" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lng" type="float" required class="form-control" value="${pos.lng}" aria-label="image" aria-describedby="basic-addon1">
+  <input name="lat" type="float" required class="form-control" value="${pos.lat}" aria-label="image" aria-describedby="basic-addon1">
   <button class="btn btn-primary" value = "${window.$mapObj.mapid}" type="submit">submit</button>
   `;
   };
@@ -278,12 +278,12 @@ $(() => {
 
   // Delete Listener
   $(document).on("click",
-    "#update-points-form > button.btn.btn-danger",
+    "#update-points > button.btn.btn-danger",
     function(event) {
       event.preventDefault();
       const currMapID = window.$mapObj.mapid;
       if (confirm("Are you sure You want to delete the point?")) {
-        const pointId = document.querySelector("#update-points > .points_id").value;
+        const pointId = Number(document.querySelector("#update-points > div > div.pointsid").innerText);
         console.log('this is pointval', pointId);
         window.$mapObj.deletePoint(pointId)
           .then(success => {
