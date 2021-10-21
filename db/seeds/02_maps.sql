@@ -1,23 +1,20 @@
 -- Maps table seeds here
 
 INSERT INTO maps(title,description,lat,lng,zoom,creator_id)
-  VALUES ('Beautiful Beaches in Sydney', 'My favorite beaches near Sydney', -33.9, 151.2, 10, 1),
+  VALUES   ('Beautiful Beaches in Sydney', 'My favorite beaches near Sydney', -33.9, 151.2, 10, 1),
 
-  ('Japanese Food', 'Japanese foods', 49.284159, -123.125478, 18, 1),
+  ('Great Places in Argentina', 'Places Visited in argentina', -35.202, -65.40, 5, 1),
 
-  ('Cinemas','Cinema Theatres' , 35.686278, -139.737871, 18, 1),
 
-  ('Italian Cuisine', 'Best Italian food', 31.6278, 140.737871, 20, 3),
+  ('Toronto Restuarents', 'Great Restaurents in Toronto', 43.67993014484222, -79.43711990295365 , 15, 1),
 
-  ('Asian Food', 'Best Asian foods', 36.334, 134.737871, 20, 2),
+  ('Japanese Food', 'Japanese foods',67993014484222, -79.43711990295365, 18, 1),
 
-  ('Mexican Food', 'Best Mexican foods', 49.282656, -123.126912, 15, 4),
+  ('Cinemas','Cinema Theatres' , 67993014484222, -79.43711990295365, 18, 1),
 
-  ('Parks', 'Outing Parks', 49.282656, -123.126912, 15, 6),
+  ('Italian Cuisine', 'Best Italian food', 43.683334, -79.766670, 10, 3),
 
-  ('Camping Areas', 'Places to do a camping', 36.334, 134.737871, 20, 8),
-
-  ('Community Center', 'Community Center', 36.334, 134.737871, 20, 8);
+  ('Asian Food', 'Best Asian foods', 52.939916,  -73.549136, 10, 2);
 
 
 
