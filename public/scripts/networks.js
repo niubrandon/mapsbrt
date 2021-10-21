@@ -44,3 +44,29 @@ function deleteMap(userId, mapId) {
     url: `api/maps/${userId}/deletemap/${mapId}?_method=DELETE`,
   })
 }
+
+const addPoint = function(currMapID,addInput) {
+  console.log('addpointfunction');
+  return $.ajax({
+    method: "POST",
+    url: `/api/maps/${currMapID}/points`,
+    data: addInput
+  });
+};
+
+const deletePoint = function(pointId) {
+  // console.log('deletefunction');
+  return $.ajax({
+    method: "DELETE",
+    url: `api/maps/points/${pointId}/delete`,
+  });
+};
+
+const updatePoint = function(pointId,updateInput) {
+  console.log('updatefunction');
+  return $.ajax({
+    method: "PUT",
+    url: `api/maps/points/${pointId}/update`,
+    data: updateInput
+  });
+};
