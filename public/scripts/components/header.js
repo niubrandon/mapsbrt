@@ -15,7 +15,7 @@ $(document).ready(function() {
         <div class="container-fluid" id="nav-items-div">
           <a class="navbar-brand">
             <img src="./images/map_logo.png" alt="" width="50" height="50" class="d-inline-block">
-            Maps
+            Wiki Map
           </a>
           <div class="ml-auto">
             <button id="register" class="btn btn-primary" type="submit">Register</button>
@@ -26,7 +26,7 @@ $(document).ready(function() {
         userLinks = `<div class="container-fluid" id="nav-items-div">
         <a class="navbar-brand home" href="">
           <img src="./images/map_logo.png" alt="" width="50" height="50" class="d-inline-block">
-          Maps
+          Wiki Map
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

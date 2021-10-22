@@ -54,6 +54,7 @@ $(document).on("submit", "#register-form", function(event) {
     //user registered and logged in then fetch data
     //replace the register form to a loggedInAsUserForm
     if (success.error === "error") {
+      toastr.error("Username or email in exists");
       console.log("user registration error");
       return;
     }
