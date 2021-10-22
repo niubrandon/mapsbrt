@@ -23,17 +23,17 @@ This is Wiki Map. It is a single page web application with a responsive design t
 <table>
  <thead>
       <tr>
-         <th>Endpoint</th>
-         <th>Action</th>
+         <th>Route</th>
+         <th>Method</th>
          <th>Description</th>
       </tr>
    </thead>
    <tbody>
-        <tr>
+        <td>
          <th>/api/users/register</th>
          <th>POST</th>
          <th>Create a new user</th>
-      </tr>
+      </td>
       <tr>
          <td>/api/users/login</td>
          <td>POST</td>
