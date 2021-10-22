@@ -29,11 +29,11 @@ This is Wiki Map. It is a single page web application with a responsive design t
       </tr>
    </thead>
    <tbody>
-        <td>
-         <th>/api/users/register</th>
-         <th>POST</th>
-         <th>Create a new user</th>
-      </td>
+        <tr>
+         <td>/api/users/register</td>
+         <td>POST</td>
+         <td>Create a new user</td>
+      </tr>
       <tr>
          <td>/api/users/login</td>
          <td>POST</td>
