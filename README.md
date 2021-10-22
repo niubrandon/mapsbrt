@@ -11,7 +11,7 @@ This is Wiki Map. It is a single page web application with a responsive design t
 - users can view a map
 - a map can contain many points
 - each point can have: a title, description, and image
-- authenticated users can create maps -fix bug
+- authenticated users can create maps
 - authenticated users can modify maps (add, edit, remove points)
 - users can favourite a map
 - users have profiles, indicating their favourite maps and maps they've contributed to
