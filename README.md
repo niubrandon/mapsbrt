@@ -1,14 +1,23 @@
 # Wiki Map
 
-A single page application that let users to create and modify maps with points labelled and share with other users.
+There is Wiki Map. It is a single page application with a responsive design that let users to create and modify maps and points and share with other users. (This application integrated google map API)
 
-## Project description
+## Team
+Tom https://github.com/tomthebarbarian
+Rameesa https://github.com/RameesaRijas
+Brandon https://github.com/niubrandon
+## Project features
+- users can see a list of the available maps
+- users can view a map
+- a map can contain many points
+- each point can have: a title, description, and image
+- authenticated users can create maps -fix bug
+- authenticated users can modify maps (add, edit, remove points)
+- users can favourite a map
+- users have profiles, indicating their favourite maps and maps they've contributed to
 
-
-## Pictures show how to user this application
-
-## Porject structure
-
+## Live demonstration
+![demo](https://user-images.githubusercontent.com/16887712/138380590-604f7425-265e-40d0-912f-92412a6fa799.gif)
 ## Project API endpoints
 
 <table>
@@ -21,19 +30,69 @@ A single page application that let users to create and modify maps with points l
    </thead>
    <tbody>
         <tr>
-         <th>/api/users</th>
-         <th>GET</th>
-         <th>Get all users</th>
+         <th>/api/users/register</th>
+         <th>POST</th>
+         <th>Create a new user</th>
       </tr>
       <tr>
-         <td>data1</td>
-         <td>data2</td>
-         <td>data3</td>
+         <td>/api/users/login</td>
+         <td>POST</td>
+         <td>Post user login</td>
       </tr>
       <tr>
-         <td>data11</td>
-         <td>data12</td>
-         <td>data13</td>
+         <td>/api/maps/</td>
+         <td>GET</td>
+         <td>Get a list of maps</td>
+      </tr>
+        <tr>
+         <td>/api/maps/usermaps</td>
+         <td>GET</td>
+         <td>Get a list of maps from an auth user</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:id</td>
+         <td>GET</td>
+         <td>Get a single map from mapID</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:id/points</td>
+         <td>GET</td>
+         <td>Get all points of a single map</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:id/points</td>
+         <td>POST</td>
+         <td>Add a point for a single map</td>
+      </tr>
+        <tr>
+         <td>/api/maps/points/:pointid/update</td>
+         <td>PUT</td>
+         <td>Update a point for a single map</td>
+      </tr>
+        <tr>
+         <td>/api/maps/points/:pointid/delete</td>
+         <td>DELETE</td>
+         <td>Delete a point for a single map</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:userid/addmap</td>
+         <td>POST</td>
+         <td>Add a map for an auth user</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:userid/deletemap/:id</td>
+         <td>DELETE</td>
+         <td>Delete a map belongs to an auth user</td>
+      </tr>
+        <tr>
+         <td>/api/maps/:userid/updatemap/:id</td>
+         <td>PUT</td>
+         <td>Update a map belongs to an auth user</td>
+      </tr>
+        <tr>
+         <td>/api/maps/</td>
+         <td>GET</td>
+         <td>Get a list of maps</td>
       </tr>
    </tbody>
 </table>
@@ -44,6 +103,15 @@ A single page application that let users to create and modify maps with points l
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+- Express.js
+- Bcryptjs
+- Chalk
+- Cookie-session
+- Dotenv
+- Method-override
+- Morgan
+- Sass
+
 
 
 ## Getting Started
