@@ -1,11 +1,11 @@
 # Wiki Map
 
-There is Wiki Map. It is a single page application with a responsive design that let users to create and modify maps and points and share with other users. (This application integrated google map API)
+This is Wiki Map. It is a single page web application with a responsive design that let users to create and modify maps and points and share with other users. (This application integrated google map API)
 
 ## Team
-Tom https://github.com/tomthebarbarian
-Rameesa https://github.com/RameesaRijas
-Brandon https://github.com/niubrandon
+- Tom https://github.com/tomthebarbarian
+- Rameesa https://github.com/RameesaRijas
+- Brandon https://github.com/niubrandon
 ## Project features
 - users can see a list of the available maps
 - users can view a map
